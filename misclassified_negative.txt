@@ -1,0 +1,18 @@
+TRUE: negative | PRED: neutral
+TWEET: They stole a nonprofit. It’s not right.
+--------------------------------------------------------------------------------
+TRUE: negative | PRED: positive
+TWEET: Trump is now attacking Germany. Notice how he keeps going after U.S. allies for not supporting a war he started without even consulting them, but never criticizes Russia for helping Iran target U.S. troops.
+--------------------------------------------------------------------------------
+TRUE: negative | PRED: positive
+TWEET: Massive flooding caused by intense rain occurred in Qinzhou, Guangxi, China 🇨🇳 (27.04.2026)
+--------------------------------------------------------------------------------
+TRUE: negative | PRED: neutral
+TWEET: A driver captured the moment his windshield was smashed during a hailstorm Tuesday near Springfield, Missouri.
+--------------------------------------------------------------------------------
+TRUE: negative | PRED: positive
+TWEET: Even though the sea is so enchanting and wonderful, seafaring is a terrifying profession.
+--------------------------------------------------------------------------------
+TRUE: negative | PRED: neutral
+TWEET: Russia’s Tuapse oil refinery is now burning out of control this morning after an overnight Ukrainian drone raid. Locals report that additional oil storage tanks exploded.
+--------------------------------------------------------------------------------

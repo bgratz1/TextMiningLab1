@@ -1,0 +1,30 @@
+TRUE: neutral | PRED: positive
+TWEET: I’m joining X to share occasional updates about the work we do at the White House. We are relentlessly focusing on advancing President Trump’s agenda and delivering on promises to the American people. I welcome different viewpoints. Follow along for insights and information.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: This is why OpenAI was created
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: This mountain in China appears to burn every morning due to the sun striking it at the perfect angle and the moving clouds. A phenomenon called alpenglow
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: Even if you spent a billion dollars, you couldn't advertise Istanbul as effectively as this cat. Here's that image that's gone viral around the world.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: Breaking: Tyran Stokes, the No. 1 recruit in the SC Next 100 Class of 2026, has committed to Kansas, he announced on Inside the NBA.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: Man swinging through the air after cutting the palm tree top with chainsaw. He never watched Looney Toons once in his life. He made it down safe, though.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: Hey @grok, can you do better than Gemini and ChatGPT?
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: Sources: The NCAA has initiated the final steps to expand the men’s and women’s NCAA basketball tournaments to 76 teams. The expansion is on track to be formalized in the upcoming weeks, with mid-May as the target. The 76-team tournaments begin next year.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: positive
+TWEET: A special forces soldier involved in the capture of Venezuelan President Nicolás Maduro pleaded not guilty Tuesday to misusing classified information about the operation to make over $400,000 in illegal profits.
+--------------------------------------------------------------------------------
+TRUE: neutral | PRED: negative
+TWEET: NO ONE IS TALKING ABOUT THIS. When gold topped in 2020, Bitcoin dropped about -21%. Then Bitcoin surged +559% in just 238 days. When Gold topped in January, Bitcoin has also dropped by -33%. Are we seeing the same playbook again?
+--------------------------------------------------------------------------------
