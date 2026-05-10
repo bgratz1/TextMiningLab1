@@ -1184,7 +1184,6 @@
     "airline_counts_train = airline_vec.fit_transform(docs_train)\n",
     "airline_counts_test = airline_vec.transform(docs_test)\n",
     "\n",
-    "# ❌ GEEN TF-IDF HIER\n",
     "clf = MultinomialNB().fit(airline_counts_train, y_train)\n",
     "y_pred = clf.predict(airline_counts_test)\n",
     "\n",
