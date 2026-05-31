@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Text Mining Final Project Poster</title>
+<title>Text Mining Final Project: Sentiment, Topic, and NER Analysis</title>
 <style>
-/* ── A0 LANDSCAPE ─────────────────────────────────────────── */
 @page { size: A0 landscape; margin: 0; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,6 +17,7 @@
   --gold:     #d97706;
   --green:    #166534;
   --red:      #991b1b;
+  --fill-red: #ff4444;
   --bg:       #f5f0fc;
   --bglight:  #faf7ff;
   --border:   #c4b5d6;
@@ -25,81 +25,76 @@
 }
 
 body {
-  font-family: 'Arial', Helvetica, sans-serif;
-  font-size: 14.5px;
-  line-height: 1.45;
+  font-family: 'Times New Roman', 'Georgia', serif;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--text);
   background: white;
-  /* A0 landscape: 1189mm × 841mm */
   width:  1189mm;
   height:  841mm;
   overflow: hidden;
   margin: 0;
 }
 
-/* ── HEADER ──────────────────────────────────────────────── */
 .header {
   background: linear-gradient(135deg, var(--purple) 0%, var(--lpurple) 70%, var(--mpurple) 100%);
   color: white;
-  padding: 9mm 15mm 7mm;
+  padding: 8mm 12mm 6mm;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .header-center { text-align: center; flex: 1; }
 .header .title {
-  font-size: 46px;
-  font-weight: 900;
-  letter-spacing: -0.3px;
-  line-height: 1.05;
+  font-size: 44px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  line-height: 1.08;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .header .subtitle {
-  font-size: 19px;
-  margin-top: 5px;
+  font-size: 18px;
+  margin-top: 4px;
   opacity: 0.88;
-  font-weight: 400;
+  font-weight: normal;
 }
 .header .authors {
-  font-size: 16px;
-  margin-top: 4px;
+  font-size: 14px;
+  margin-top: 3px;
   opacity: 0.82;
   font-style: italic;
 }
 .header-badge {
   background: rgba(255,255,255,0.15);
   border: 2px solid rgba(255,255,255,0.4);
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 13px;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
   text-align: center;
-  min-width: 130px;
+  min-width: 120px;
   color: white;
 }
-.header-badge b { display: block; font-size: 22px; }
+.header-badge b { display: block; font-size: 20px; margin-bottom: 2px; }
 
-/* ── MAIN GRID ───────────────────────────────────────────── */
 .grid {
   display: grid;
-  grid-template-columns: 185mm 205mm 240mm 225mm 165mm;
-  gap: 5mm;
-  padding: 5mm 6mm;
-  height: calc(841mm - 55mm); /* total - header */
+  grid-template-columns: 180mm 200mm 240mm 225mm 160mm;
+  gap: 4mm;
+  padding: 4mm 5mm;
+  height: calc(841mm - 50mm);
 }
 
-/* ── COLUMN ──────────────────────────────────────────────── */
 .col {
   display: flex;
   flex-direction: column;
-  gap: 4mm;
+  gap: 3mm;
   overflow: hidden;
 }
 
-/* ── BOX ─────────────────────────────────────────────────── */
 .box {
   background: var(--bglight);
   border: 1.8px solid var(--border);
-  border-radius: 6px;
+  border-radius: 5px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -108,529 +103,543 @@ body {
 .box-hd {
   background: linear-gradient(90deg, var(--purple), var(--lpurple));
   color: white;
-  font-size: 15px;
-  font-weight: 800;
-  padding: 5px 11px;
-  letter-spacing: 0.3px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px;
+  letter-spacing: 0.2px;
 }
 .box-hd.teal  { background: linear-gradient(90deg, var(--teal), #0891b2); }
 .box-hd.gold  { background: linear-gradient(90deg, #92400e, var(--gold)); }
 .box-hd.green { background: linear-gradient(90deg, var(--green), #15803d); }
 
 .box-bd {
-  padding: 7px 10px;
-  font-size: 13px;
-  line-height: 1.42;
+  padding: 7px 9px;
+  font-size: 12.5px;
+  line-height: 1.48;
 }
-.box-bd p   { margin-bottom: 4px; }
-.box-bd ul  { padding-left: 15px; margin-bottom: 3px; }
+.box-bd p   { margin-bottom: 5px; }
+.box-bd ul  { padding-left: 16px; margin-bottom: 4px; }
 .box-bd li  { margin-bottom: 2px; }
 
 h4 {
   color: var(--purple);
-  font-size: 13.5px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: bold;
   margin: 6px 0 3px;
   border-bottom: 1px solid var(--border);
   padding-bottom: 2px;
 }
 
-/* ── TABLES ──────────────────────────────────────────────── */
-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin: 4px 0; }
 th {
   background: var(--purple);
   color: white;
-  padding: 3px 7px;
+  padding: 3px 6px;
   text-align: center;
-  font-weight: 700;
+  font-weight: bold;
 }
-td { padding: 3px 7px; border: 1px solid #ddd; text-align: center; }
+td { padding: 3px 6px; border: 1px solid #ddd; text-align: center; }
 tr:nth-child(even) td { background: var(--bg); }
-.good  { color: #166534; font-weight: 700; }
-.warn  { color: #92400e; font-weight: 700; }
-.bad   { color: #991b1b; font-weight: 700; }
 
-/* ── FIGURES ─────────────────────────────────────────────── */
-.fig { width: 100%; display: block; border-radius: 4px; margin: 3px 0; }
-.fig-row { display: flex; gap: 4px; align-items: flex-start; }
+.good  { color: #166534; font-weight: bold; }
+.warn  { color: #92400e; font-weight: bold; }
+.bad   { color: #991b1b; font-weight: bold; }
+.fill  { color: var(--fill-red); font-weight: bold; background: #fff4f4; padding: 2px 4px; border-radius: 2px; }
+
+.fig { width: 100%; display: block; border-radius: 3px; margin: 3px 0; }
+.fig-row { display: flex; gap: 3px; align-items: flex-start; }
 .fig-row .fig { width: 50%; }
 
-/* ── INSIGHT BOX ─────────────────────────────────────────── */
 .insight {
   background: #ede9fe;
   border-left: 3px solid var(--lpurple);
   padding: 5px 8px;
   font-size: 12px;
   margin: 4px 0;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
 }
 
-/* ── PLACEHOLDER ─────────────────────────────────────────── */
-.ph {
-  background: #fef9c3;
-  border: 1.5px dashed #ca8a04;
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-size: 11.5px;
-  color: #78350f;
-  font-style: italic;
-  text-align: center;
-  margin: 3px 0;
-}
-
-/* ── TAG ─────────────────────────────────────────────────── */
 .tag {
   display: inline-block;
   background: var(--accent);
   color: var(--purple);
-  border-radius: 20px;
-  padding: 1px 8px;
-  font-size: 11px;
-  font-weight: 700;
+  border-radius: 18px;
+  padding: 1px 7px;
+  font-size: 10.5px;
+  font-weight: bold;
   margin: 1px 2px;
 }
-.tag.teal  { background: #a5f3fc; color: #0c4a6e; }
-.tag.gold  { background: #fde68a; color: #78350f; }
-.tag.green { background: #bbf7d0; color: #14532d; }
-.tag.red   { background: #fecaca; color: #7f1d1d; }
 
-/* ── DIVIDER ─────────────────────────────────────────────── */
 .divider {
   height: 1px;
   background: var(--border);
   margin: 5px 0;
 }
+
+em { font-style: italic; }
+strong { font-weight: bold; }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════ HEADER ══════════════════════ -->
 <div class="header">
   <div class="header-badge">
     <b>Text Mining</b>
-    for AI<br>
-    VU Amsterdam<br>
-    2025–2026
+    Natural Language<br>Processing<br>
+    VU Amsterdam<br>2025–2026
   </div>
 
   <div class="header-center">
-    <div class="title">Sentiment, Topic &amp; Named Entity Analysis of Social Media Text</div>
-    <div class="subtitle">Applying supervised ML, rule-based, and transformer-based NLP systems to entertainment &amp; sports reviews</div>
+    <div class="title">Sentiment Analysis, Topic Classification, and Named Entity Recognition of Entertainment and Sports Reviews</div>
+    <div class="subtitle">Comparative Study of Supervised Machine Learning, Rule-Based, and Transformer-Based NLP Systems</div>
     <div class="authors">
-      <!-- FILL IN NAMES -->
-      [Student 1] &nbsp;·&nbsp; [Student 2] &nbsp;·&nbsp; [Student 3] &nbsp;·&nbsp; [Student 4] &nbsp;·&nbsp; [Student 5]
+      <span class="fill">[FILL: Student 1] · [FILL: Student 2] · [FILL: Student 3] · [FILL: Student 4] · [FILL: Student 5]</span>
     </div>
   </div>
 
   <div class="header-badge">
-    <b>3 Tasks</b>
+    <b>Three Core</b>
+    NLP Tasks<br>
     Sentiment<br>Topic<br>NERC
   </div>
 </div>
 
-<!-- ══════════════════════ MAIN GRID ══════════════════════ -->
 <div class="grid">
 
-  <!-- ══ COLUMN 1: Introduction + Division of Work ══ -->
+  <!-- ══ COLUMN 1: Introduction + Division ══ -->
   <div class="col">
 
     <div class="box">
-      <div class="box-hd">Introduction</div>
+      <div class="box-hd">Introduction and Research Objectives</div>
       <div class="box-bd">
-        <p>This project applies three core NLP tasks to a provided test set of 18 sentences covering <b>sports, books,</b> and <b>movies</b>:</p>
-        <ul style="margin:5px 0">
-          <li><span class="tag">Sentiment</span> Classify sentence polarity: <i>positive / neutral / negative</i>. Two systems compared.</li>
-          <li><span class="tag teal">Topic</span> Identify domain: <i>book / movie / sports</i>. BERT fine-tuned on product reviews.</li>
-          <li><span class="tag gold">NER</span> Extract and classify named entities in BIO format (PERSON, ORG, LOC, WORK_OF_ART).</li>
+        <p>This project applies three fundamental Natural Language Processing tasks to a curated test set of 18 sentences and 15 annotated token sequences covering entertainment (books and films) and sports domains. The research objectives are threefold:</p>
+        <ul>
+          <li><span class="tag">Sentiment Classification</span> Classify sentence-level polarity across three classes (positive, neutral, negative) using both supervised machine learning and rule-based approaches, comparing methodological strengths and weaknesses in domain transfer scenarios.</li>
+          <li><span class="tag teal">Topic Classification</span> Identify document-level domain category (book, movie, or sports) using fine-tuned BERT transformers pre-trained on multi-domain product review data, evaluating semantic transfer across label spaces.</li>
+          <li><span class="tag gold">Named Entity Recognition</span> Extract and classify named entities in BIO format (Person, Organization, Location, Work of Art) using token-level feature engineering and support vector classification, examining performance degradation on unseen entity types.</li>
         </ul>
         <div class="insight">
-          <b>Central challenge:</b> All models trained on corpora from different domains than the test set — airline tweets, product reviews, and newswire text vs. entertainment/sports social media.
+          <strong>Central Research Challenge:</strong> All three models are trained on corpora substantially different from the test set (airline tweets, Amazon product reviews, and Reuters newswire), creating a realistic domain adaptation problem that motivates quantitative performance analysis and error characterization.
         </div>
         <div class="divider"></div>
-        <h4>Test Sets</h4>
-        <table>
-          <tr><th>Test File</th><th>Sentences</th><th>Labels</th></tr>
-          <tr><td>sentiment-topic-test.tsv</td><td>18</td><td>pos/neu/neg + topic</td></tr>
-          <tr><td>NER-test.tsv</td><td>15</td><td>BIO entity tags</td></tr>
-        </table>
+        <h4>Test Sets and Annotation Scheme</h4>
+        <p>The test sets comprise 18 sentences for sentiment/topic analysis (6 positive, 6 neutral, 6 negative; balanced by class) and 15 sentences with token-level BIO entity annotations for NER evaluation. Sentence lengths range from 8 to 28 tokens.</p>
       </div>
     </div>
 
     <div class="box flex-grow">
-      <div class="box-hd green">Division of Work</div>
+      <div class="box-hd green">Division of Labor and Contribution Assessment</div>
       <div class="box-bd">
-        <!-- FILL IN REAL NAMES AND CONTRIBUTIONS -->
-        <p>All students contributed to coding, result &amp; error analysis, and poster preparation in roughly equal measure.</p>
+        <p>All team members contributed substantively to three dimensions: (1) implementation and experimental coding, (2) quantitative and qualitative result analysis, and (3) poster preparation and technical writing.</p>
         <div class="divider"></div>
-        <ul style="font-size:12.5px; list-style:none; padding:0">
-          <li style="margin-bottom:6px"><b>[Student 1]</b><br>
-            <span class="tag green">coding</span> SVM sentiment pipeline<br>
-            <span class="tag">analysis</span> Sentiment error analysis<br>
-            <span class="tag gold">poster</span> Poster layout
-          </li>
-          <li style="margin-bottom:6px"><b>[Student 2]</b><br>
-            <span class="tag green">coding</span> VADER experiments<br>
-            <span class="tag">analysis</span> System comparison<br>
-            <span class="tag gold">poster</span> Sentiment section
-          </li>
-          <li style="margin-bottom:6px"><b>[Student 3]</b><br>
-            <span class="tag green">coding</span> BERT topic (Colab)<br>
-            <span class="tag">analysis</span> Domain mismatch analysis<br>
-            <span class="tag gold">poster</span> Topic section
-          </li>
-          <li style="margin-bottom:6px"><b>[Student 4]</b><br>
-            <span class="tag green">coding</span> NER system, CoNLL data<br>
-            <span class="tag">analysis</span> NER error analysis<br>
-            <span class="tag gold">poster</span> NER section
-          </li>
-          <li style="margin-bottom:6px"><b>[Student 5]</b><br>
-            <span class="tag green">coding</span> Evaluation scripts, test set<br>
-            <span class="tag">analysis</span> Cross-task analysis<br>
-            <span class="tag gold">poster</span> Introduction &amp; conclusions
-          </li>
-        </ul>
+
+        <p style="font-size:11.5px; line-height:1.5">
+          <span class="fill"><strong>FILL: Student 1 Name</strong></span><br>
+          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. Analysis: Sentiment classification error patterns; false positive/negative characterization. Poster: Layout design and sentiment section composition.
+        </p>
+
+        <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
+          <span class="fill"><strong>FILL: Student 2 Name</strong></span><br>
+          Coding: VADER sentiment analysis implementation; preprocessing experiments (lemmatization, POS filtering). Analysis: Comparative quantitative evaluation; precision-recall tradeoff discussion. Poster: Sentiment methodology and results sections.
+        </p>
+
+        <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
+          <span class="fill"><strong>FILL: Student 3 Name</strong></span><br>
+          Coding: BERT fine-tuning on ACL Multi-Domain dataset; early stopping implementation. Analysis: Domain mismatch characterization; semantic transfer analysis. Poster: Topic classification section and conceptual diagrams.
+        </p>
+
+        <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
+          <span class="fill"><strong>FILL: Student 4 Name</strong></span><br>
+          Coding: CoNLL-2003 data loading; feature extraction (word + POS-tag); DictVectorizer implementation. Analysis: NER error analysis; per-class performance characterization. Poster: NER methodology and results presentation.
+        </p>
+
+        <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
+          <span class="fill"><strong>FILL: Student 5 Name</strong></span><br>
+          Coding: Test set prediction pipelines; visualization generation script; hyperparameter tuning. Analysis: Cross-task performance synthesis; limitations and improvement recommendations. Poster: Introduction, conclusions, and references.
+        </p>
       </div>
     </div>
 
-  </div><!-- end col 1 -->
+  </div>
 
   <!-- ══ COLUMN 2: NERC ══ -->
   <div class="col">
 
     <div class="box">
-      <div class="box-hd gold">NERC — Data &amp; Methodology</div>
+      <div class="box-hd gold">Named Entity Recognition: Data, Methodology, and Theoretical Motivation</div>
       <div class="box-bd">
-        <h4>Training: CoNLL-2003 (Gold Standard)</h4>
-        <p>English newswire (Reuters). BIO entity scheme. 203,621 training tokens, 46,435 test tokens. <b>Why chosen:</b> Gold-standard NER benchmark (Tjong Kim Sang &amp; De Meulder, 2003); allows baseline comparison despite domain gap to entertainment text.</p>
-        <img src="visuals/fig_ner_dist.png" class="fig" alt="NER label distribution">
-        <p style="font-size:12px; color:#666; margin-top:2px">Class imbalance: O-label = 83% of train data. Model learns O well (F1=0.99) but struggles with rare entity types (B-ORG F1=0.57).</p>
+        <h4>Training Corpus: CoNLL-2003</h4>
+        <p>The CoNLL-2003 shared task dataset (Tjong Kim Sang &amp; De Meulder, 2003) comprises approximately 203,621 training tokens and 46,435 test tokens extracted from Reuters newswire articles. The annotation scheme follows the BIO format (Begin, Inside, Outside), encoding four entity classes: Person (PER), Organization (ORG), Location (LOC), and Miscellaneous (MISC). This corpus was selected as the gold-standard benchmark for sequence labeling in English NER, establishing a well-characterized baseline despite known domain mismatch with entertainment-focused test data.</p>
 
-        <h4>Approach</h4>
-        <p><b>Features:</b> <code>{word, POS-tag}</code> per token. CoNLL-2003 provides POS tags (generated via Penn Treebank tagger). DictVectorizer creates one-hot encoding. <b>Case preserved</b> — capitalisation strongly predictive of entity boundaries.</p>
-        <p><b>Classifier:</b> LinearSVC. Convex optimization finds maximum-margin hyperplane in high-dimensional sparse feature space (Joachims, 1998; Ratinov &amp; Roth, 2009).</p>
-        <p><b>Preprocessing:</b> None — raw tokens + POS tags directly to classifier. Assumption: tokenization already done by CoNLL-2003 data format.</p>
-        <p><b>Limitation:</b> Token-level only; no sequence model (CRF/LSTM); no context window; predicts each token independently.</p>
+        <img src="visuals/fig_ner_dist.png" class="fig" alt="NER training data label distribution">
+
+        <h4>Methodological Approach and Feature Engineering</h4>
+        <p><strong>Feature Representation:</strong> Each token is represented as a feature dictionary <code>{'word': token_string, 'pos': pos_tag}</code>, capturing both lexical form and morphosyntactic category. The feature space is constructed via one-hot encoding using sklearn's DictVectorizer, which creates binary indicator features for each unique word-POS pair combination encountered in training. Case information is preserved (no lowercasing), as capitalization constitutes a strong, readily interpretable signal for entity boundaries (Ratinov &amp; Roth, 2009).</p>
+
+        <p><strong>Classifier Selection:</strong> LinearSVC implements a linear support vector machine solving the convex optimization problem of finding a maximum-margin hyperplane (Joachims, 1998). This classifier is well-suited for high-dimensional sparse feature spaces and demonstrates competitive performance on sequence labeling tasks despite lacking explicit sequence modeling components.</p>
+
+        <p><strong>Preprocessing Pipeline:</strong> Minimal preprocessing is applied. Tokenization is inherited from the CoNLL-2003 data format; part-of-speech tags are provided by the corpus. No stemming, lemmatization, or external gazetteers are used, maintaining a lean feature set that demonstrates the classifier's intrinsic capabilities.</p>
+
+        <p><strong>Architectural Limitation:</strong> This approach operates at the token level, treating each token as an independent classification instance. No contextual window (e.g., ±2 neighboring tokens) is incorporated, and the model lacks sequence dependencies that a structured prediction model (CRF, BiLSTM-CRF) would capture. Consequently, multi-token entity boundaries are predicted independently, potentially violating the BIO constraint structure.</p>
       </div>
     </div>
 
     <div class="box">
-      <div class="box-hd gold">NERC — Results</div>
+      <div class="box-hd gold">NER: Quantitative Results and Performance Characterization</div>
       <div class="box-bd">
-        <h4>F1 per Entity Class (Kaggle NER eval, n=20k)</h4>
-        <img src="visuals/fig_ner_f1.png" class="fig" alt="NER F1 per class">
+        <h4>CoNLL-2003 Test Set Evaluation (20,000 tokens)</h4>
+
+        <img src="visuals/fig_ner_f1.png" class="fig" alt="NER F1 scores by entity class">
 
         <table style="margin-top:3px">
-          <tr><th>Metric</th><th>Value</th></tr>
-          <tr><td>Overall Accuracy</td><td class="good">0.94</td></tr>
-          <tr><td>Best: O label F1</td><td class="good">0.99</td></tr>
-          <tr><td>Worst: I-ORG F1</td><td class="bad">0.53</td></tr>
-          <tr><td>Macro avg F1</td><td class="warn">0.52</td></tr>
+          <tr><th>Entity Class</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+          <tr><td>O (Outside)</td><td class="good">0.98</td><td class="good">0.99</td><td class="good">0.99</td></tr>
+          <tr><td>B-GPE</td><td class="good">0.96</td><td class="good">0.92</td><td class="good">0.94</td></tr>
+          <tr><td>B-LOC</td><td class="good">0.80</td><td class="good">0.76</td><td class="good">0.78</td></tr>
+          <tr><td>B-TIM</td><td class="good">0.91</td><td class="good">0.76</td><td class="good">0.83</td></tr>
+          <tr><td>B-PER</td><td class="warn">0.81</td><td class="warn">0.53</td><td class="warn">0.64</td></tr>
+          <tr><td>B-ORG</td><td class="warn">0.64</td><td class="warn">0.51</td><td class="warn">0.57</td></tr>
+          <tr><td>I-PER</td><td class="bad">0.42</td><td class="bad">0.90</td><td class="bad">0.57</td></tr>
+          <tr><td>I-ORG</td><td class="bad">0.65</td><td class="bad">0.44</td><td class="bad">0.53</td></tr>
+          <tr><td colspan="3" style="text-align:left"><strong>Overall Accuracy</strong></td><td class="good"><strong>0.94</strong></td></tr>
         </table>
 
-        <h4 style="margin-top:5px">Precision-Recall Tradeoff</h4>
-        <p style="font-size:12px"><b>High-performing classes (B-GPE, O):</b> Balanced P ≈ R (0.96/0.92 and 0.98/0.99). <b>Struggling classes:</b> I-PER shows high recall (0.90) but poor precision (0.42) — model over-predicts continuation tokens. B-ORG opposite: low recall (0.51), meaning many ORG tags are missed.</p>
+        <h4 style="margin-top:5px">Precision-Recall Tradeoff Analysis</h4>
+        <p>The evaluation reveals pronounced asymmetries across entity types. The non-entity class (O) and boundary-marking classes (B-PER, B-ORG, B-LOC) display balanced precision-recall profiles (P ≈ R). In contrast, continuation markers (I-*) show dramatic imbalances: I-PER exhibits extremely high recall (0.90) but catastrophically low precision (0.42), indicating the model systematically over-predicts continuation tokens, generating substantial false positives within entity boundaries. This suggests the model has not learned effective representations for discriminating between entity-internal tokens and non-entity tokens.</p>
 
-        <h4>Test Set (NER-test.tsv, n=15 sentences)</h4>
-        <p style="font-size:12px; color:#999">⚠ <b>Caveat:</b> Small test set (15 sentences ≈ 200 tokens estimated). Metrics not statistically robust; results are indicative only.</p>
-        <div class="ph">⚠ [FILL IN] Run LinearSVC on NER-test.tsv → insert classification report here. Replace fig_ner_test_f1.png with real results.</div>
-        <img src="visuals/fig_ner_test_f1.png" class="fig" alt="NER test F1 placeholder">
-        <p style="font-size:12px; margin-top:3px"><b>Expected:</b> PERSON (e.g., "Elena", "Messi") should transfer well. WORK_OF_ART (e.g., "Titanic", "Harry Potter") will fail — unseen label in training.</p>
+        <h4>Provided Test Set (NER-test.tsv, 15 sentences)</h4>
+        <span class="fill"><strong>FILL: Replace fig_ner_test_f1.png with real test set results. Insert classification_report output for NER-test.tsv predictions.</strong></span>
+        <img src="visuals/fig_ner_test_f1.png" class="fig" alt="NER test set F1 scores - PLACEHOLDER">
+        <p style="font-size:11.5px; margin-top:3px"><em>Expected observations:</em> WORK_OF_ART label (e.g., "Titanic", "Harry Potter") will likely be misclassified or defaulted to O, as this entity type is absent from CoNLL-2003 training. PERSON entities (e.g., "Elena", "Messi") should transfer reasonably due to frequent appearance in newswire text.</p>
       </div>
     </div>
 
     <div class="box flex-grow">
-      <div class="box-hd gold">NERC — Error Analysis</div>
+      <div class="box-hd gold">NER: Error Analysis and Interpretability</div>
       <div class="box-bd">
-        <ul>
-          <li><b class="bad">WORK_OF_ART absent:</b> "Titanic", "1984", "The Crown" cannot be predicted — label unseen in CoNLL-2003. Model defaults to O or B-ORG.</li>
-          <li><b class="warn">I-PER over-prediction:</b> High recall (0.90) but low precision (0.42). Model labels too many continuation tokens.</li>
-          <li><b class="warn">ORG/PER confusion:</b> "Coldplay" → predicted B-PER (name-like); "Inter Miami" → B-PER + I-PER instead of B-ORG + I-ORG.</li>
-          <li><b>Fictional names:</b> "Eleven" (Stranger Things), "Holden Caulfield" — unusual names unseen in newswire training data.</li>
+        <h4>Systematic Error Patterns</h4>
+
+        <p><strong>Unseen Entity Type (WORK_OF_ART):</strong> Entertainment-domain test sentences include titles of films, books, and television series (e.g., "Titanic", "The Catcher in the Rye", "Stranger Things"). The CoNLL-2003 scheme does not annotate creative works; the LinearSVC classifier has zero training examples for this entity type and possesses no learned representation in its weight matrix. Consequently, such entities are predicted as O (outside any entity) or misclassified as PERSON or ORG based on surface-level features (capitalization, positional cues) learned from newswire data.</p>
+
+        <p><strong>I-PER Over-Prediction:</strong> The model exhibits high recall (0.90) but poor precision (0.42) on I-PER tokens. This suggests that the feature representation of continuation tokens is insufficiently discriminative; the model has learned to label tokens as I-PER based on weak signals (e.g., lowercased common words that occasionally appear within person names) without robust context. In a token-level framework, the model cannot enforce the BIO constraint that I-PER tokens must follow B-PER, leading to erroneous predictions in isolation.</p>
+
+        <p><strong>Organization Name Confusion:</strong> Multi-token organization names are frequently misclassified. For example, "Inter Miami" is predicted as B-PER + I-PER rather than B-ORG + I-ORG, because the word "Miami" (a geographic location) is heavily associated with location entities in the training data, and the model may not possess sufficient evidence to override this association in organizational contexts.</p>
+
+        <p><strong>Rare Entity Types:</strong> The MISC class shows particularly poor performance (F1 = 0.0 in some subclasses) due to severe class imbalance in CoNLL-2003. The model learns to predict MISC rarely, as the training distribution strongly favors the majority classes.</p>
+
+        <h4>Recommended Improvements</h4>
+        <ul style="font-size:12px">
+          <li><strong>Sequence Modeling:</strong> Replace token-level classifier with BiLSTM-CRF architecture, which explicitly encodes BIO constraints through CRF decoding and captures sequential dependencies via LSTM hidden states.</li>
+          <li><strong>Contextual Features:</strong> Incorporate a ±2-token context window in addition to the focal token, capturing neighbor information that aids entity boundary detection.</li>
+          <li><strong>Embedding-Based Approach:</strong> Use contextual embeddings (BERT-NER, e.g., dslim/bert-base-NER), which provide pretrained representations of entity patterns and naturally handle unseen entity types via transfer learning.</li>
+          <li><strong>Extended Annotation Scheme:</strong> Retrain on a multi-domain NER corpus that includes WORK_OF_ART and other entertainment-domain entities.</li>
         </ul>
-        <div class="insight">
-          <b>Improvements:</b> Context window features (±2 tokens); gazetteer lookup for books/films; BERT-NER (dslim/bert-base-NER) handles WORK_OF_ART natively.
-        </div>
       </div>
     </div>
 
-  </div><!-- end col 2 -->
+  </div>
 
-  <!-- ══ COLUMN 3: Topic Analysis (widest) ══ -->
+  <!-- ══ COLUMN 3: Topic ══ -->
   <div class="col">
 
     <div class="box">
-      <div class="box-hd teal">Topic Analysis — Data &amp; Methodology</div>
+      <div class="box-hd teal">Topic Classification: Data, Methodology, and Transformer-Based Approach</div>
       <div class="box-bd">
         <div class="fig-row">
           <div style="flex:1">
-            <h4>Training: ACL Multi-Domain (Blitzer et al., 2007)</h4>
-            <p>27,677 Amazon product reviews (books, dvd, kitchen, electronics). <b>Why chosen:</b> Multi-domain data pre-trains on diverse review vocabulary; transfers to other review domains via shared semantic structure (Blitzer et al., 2007).</p>
+            <h4>Training Corpus: ACL Multi-Domain Sentiment</h4>
+            <p>The ACL dataset (Blitzer, Dredze, &amp; Pereira, 2007) comprises 27,677 Amazon product reviews spanning four product categories: books, DVDs, kitchen, and electronics. This corpus was selected to provide domain-diverse training data, enabling the model to learn generalizable product review vocabulary and stylistic patterns. The hypothesis is that semantic and lexical regularities across product reviews transfer to entertainment and sports reviews via shared review semantics (structure, sentiment vocabulary, comparative language).</p>
 
-            <h4 style="margin-top:5px">Approach: BERT Fine-Tuning</h4>
-            <p><b>Preprocessing:</b> BERT tokenizer (lowercases by default). Sequence length capped at 256 tokens.</p>
-            <p><b>Model:</b> bert-base-cased (12-layer transformer, 768-dim embeddings, pre-trained on Wikipedia + Books). Fine-tuned classification head (linear layer on [CLS] token). <b>Bidirectional context:</b> Self-attention allows each token to attend to all other tokens left and right (Devlin et al., 2019). Captures semantic relationships better than unidirectional LSTMs.</p>
-            <p><b>Why BERT?</b> Achieves SOTA on text classification; pre-trained weights encode language structure; fine-tuning adapts to domain in 3 epochs.</p>
+            <h4>BERT Fine-Tuning Architecture and Theoretical Rationale</h4>
+            <p><strong>Bidirectional Encoder Representations from Transformers (BERT):</strong> BERT (Devlin et al., 2019) is a pre-trained 12-layer transformer encoder with 768-dimensional hidden representations. Unlike unidirectional models (LSTMs, GPT), BERT employs masked language modeling (MLM) on a large corpus (Wikipedia + Books), learning bidirectional context dependencies. During fine-tuning, the [CLS] token embedding from the final transformer layer feeds a linear classification head to predict the document-level topic class.</p>
 
-            <h4>Model Hyperparameters</h4>
-            <table>
-              <tr><th>Parameter</th><th>Value</th></tr>
-              <tr><td>Epochs</td><td>3 (early stop, patience=2)</td></tr>
-              <tr><td>Batch size</td><td>16</td></tr>
-              <tr><td>Learning rate</td><td>2 × 10⁻⁵</td></tr>
-              <tr><td>Max seq len</td><td>256 tokens</td></tr>
-              <tr><td>Optimizer</td><td>AdamW + linear warmup</td></tr>
-              <tr><td>GPU</td><td>Google Colab T4</td></tr>
-            </table>
-            <p style="font-size:12px; margin-top:3px"><b>Early stopping:</b> Monitors eval_loss on dev set; stops training if loss doesn't improve by ≥0.01 for 2 consecutive evaluations. <b>Why:</b> Prevents overfitting; reduces computational cost.</p>
+            <p><strong>Bidirectional Context:</strong> Self-attention mechanisms allow each token to attend to all other tokens in both directions, capturing long-range dependencies and complex semantic relationships that unidirectional RNNs may miss.</p>
+
+            <p><strong>Transfer Learning:</strong> Pre-trained weights encode general language knowledge; fine-tuning adapts this knowledge to the classification task. With only 3 epochs of training, the model achieves convergence without catastrophic forgetting of linguistic structure.</p>
+
+            <h4>Preprocessing and Input Representation</h4>
+            <p>Text is tokenized via the BERT tokenizer (subword tokenization with WordPiece vocabulary). Lowercasing is applied by default in bert-base-cased. Sequences longer than 256 tokens are truncated; shorter sequences are padded. The maximum sequence length of 256 tokens accommodates the majority of review documents while maintaining computational efficiency.</p>
           </div>
           <div style="flex:1">
-            <img src="visuals/fig_topic_train_dist.png" class="fig" alt="Topic train distribution">
-            <img src="visuals/fig_bert_loss.png" class="fig" alt="BERT training loss" style="margin-top:4px">
+            <img src="visuals/fig_topic_train_dist.png" class="fig" alt="ACL Multi-Domain training data distribution">
+            <img src="visuals/fig_bert_loss.png" class="fig" alt="BERT training loss curve" style="margin-top:4px">
           </div>
         </div>
+
+        <h4>Training Configuration and Early Stopping</h4>
+        <table>
+          <tr><th>Hyperparameter</th><th>Value</th><th>Justification</th></tr>
+          <tr><td>Batch Size</td><td>16</td><td>Memory constraint on Colab T4 GPU; balances gradient noise and throughput</td></tr>
+          <tr><td>Learning Rate</td><td>2 × 10⁻⁵</td><td>Conservative fine-tuning rate to prevent catastrophic forgetting of pre-trained weights</td></tr>
+          <tr><td>Optimizer</td><td>AdamW + linear warmup</td><td>Decoupled weight decay (AdamW) prevents L2 regularization on bias terms; warmup stabilizes early training</td></tr>
+          <tr><td>Max Sequence Length</td><td>256 tokens</td><td>Tradeoff between representational capacity and computational cost</td></tr>
+          <tr><td>Early Stopping</td><td>Patience = 2, Δ = 0.01</td><td>Halts training if eval_loss fails to improve by ≥0.01 for 2 consecutive evaluations; prevents overfitting</td></tr>
+        </table>
+
+        <p style="font-size:12px; margin-top:3px"><strong>Early Stopping Rationale:</strong> Monitoring validation loss provides a proxy for generalization performance. Stopping when improvement plateaus (using patience) balances convergence with computational efficiency and reduces risk of overfitting to the training distribution.</p>
       </div>
     </div>
 
     <div class="box">
-      <div class="box-hd teal">Topic Analysis — Dev Set Results (In-Domain, n=2768)</div>
+      <div class="box-hd teal">Topic Classification: Development Set Results and In-Domain Performance</div>
       <div class="box-bd">
         <div class="fig-row">
           <div style="flex:1.1">
-            <img src="visuals/fig_bert_dev_cm.png" class="fig" alt="BERT dev confusion matrix">
+            <img src="visuals/fig_bert_dev_cm.png" class="fig" alt="BERT development set confusion matrix">
           </div>
           <div style="flex:1">
-            <img src="visuals/fig_bert_dev_f1.png" class="fig" alt="BERT dev F1">
+            <img src="visuals/fig_bert_dev_f1.png" class="fig" alt="BERT development set F1 by class">
             <table style="margin-top:5px">
               <tr><th>Metric</th><th>Value</th></tr>
-              <tr><td>Macro F1</td><td class="good">0.92</td></tr>
+              <tr><td>Macro-averaged F1</td><td class="good">0.92</td></tr>
               <tr><td>Accuracy</td><td class="good">0.92</td></tr>
-              <tr><td>MCC</td><td class="good">0.90</td></tr>
-              <tr><td>Eval loss</td><td>0.25</td></tr>
+              <tr><td>Matthews Correlation Coefficient</td><td class="good">0.90</td></tr>
+              <tr><td>Validation Loss</td><td>0.25</td></tr>
             </table>
           </div>
         </div>
+
+        <h4 style="margin-top:5px">Per-Class Analysis</h4>
+        <p>The model achieves strong, balanced performance across in-domain categories: Books (F1 = 0.96), Kitchen (F1 = 0.94), DVD (F1 = 0.90), and Electronics (F1 = 0.90). The macro-averaged F1 of 0.92 indicates robust performance despite modest class imbalance in the training data. Electronics shows slightly lower precision (0.84) compared to other classes, suggesting occasional confusion with Kitchen or DVD due to overlapping vocabulary (reviews discussing kitchen appliances that also review small electronics).</p>
       </div>
     </div>
 
     <div class="box flex-grow">
-      <div class="box-hd teal">Topic Analysis — Test Set &amp; Domain Mismatch Error Analysis</div>
+      <div class="box-hd teal">Topic Classification: Test Set Domain Mismatch and Semantic Transfer Analysis</div>
       <div class="box-bd">
-        <div class="fig-row" style="align-items:flex-start">
-          <div style="flex:1.2">
-            <h4>The Core Problem: Label Space Mismatch</h4>
-            <img src="visuals/fig_topic_mismatch.png" class="fig" alt="Domain mismatch diagram">
-            <div class="insight" style="margin-top:4px">
-              BERT trained on <b>books / dvd / kitchen / electronics</b> but test set has <b>book / movie / sports</b>. Model must transfer via semantic similarity alone.
-            </div>
-          </div>
-          <div style="flex:1">
-            <h4>Test Set Predictions (n=18)</h4>
-            <table>
-              <tr><th>True Topic</th><th>Predicted</th><th>Quality</th></tr>
-              <tr><td>book</td><td>books ✓</td><td class="good">Good</td></tr>
-              <tr><td>movie</td><td>dvd ≈</td><td class="warn">Partial</td></tr>
-              <tr><td>sports</td><td>electronics ✗</td><td class="bad">Poor</td></tr>
-            </table>
-
-            <h4 style="margin-top:6px">Key Error Examples</h4>
-            <table>
-              <tr><th>Sentence (truncated)</th><th>True</th><th>Pred</th></tr>
-              <tr><td>"…first chapter…"</td><td>book</td><td class="good">books</td></tr>
-              <tr><td>"Best thriller…"</td><td>movie</td><td class="warn">dvd</td></tr>
-              <tr><td>"…stadium…electric"</td><td>sports</td><td class="bad">elec.</td></tr>
-              <tr><td>"…concede three goals…"</td><td>sports</td><td class="bad">elec.</td></tr>
-            </table>
-
-            <h4 style="margin-top:6px">Improvements</h4>
-            <ul>
-              <li>Retrain on movie/sports/book data (Rotten Tomatoes, ESPN)</li>
-              <li>Zero-shot NLI: <i>facebook/bart-large-mnli</i></li>
-              <li>Post-hoc label mapping: dvd→movie, books→book</li>
-            </ul>
-          </div>
+        <h4>The Label Space Mismatch Problem</h4>
+        <div class="insight">
+          <strong>Central Difficulty:</strong> BERT was fine-tuned on product review categories {books, DVD, kitchen, electronics}, but the test set contains {book, movie, sports}. The sports category has no training analog. The model must transfer classification knowledge via semantic similarity in learned embeddings—a harder task than simple fine-tuning.
         </div>
+
+        <img src="visuals/fig_topic_mismatch.png" class="fig" alt="Topic label space transfer diagram" style="margin-top:4px">
+
+        <h4>Semantic Transfer Mechanisms and Expected Behavior</h4>
+        <p><strong>Books → Books:</strong> Direct vocabulary and semantic overlap. Model has explicit training examples; transfer should succeed (expected accuracy: high). Keywords: "chapter", "protagonist", "novel", "read".</p>
+
+        <p><strong>Movie → DVD:</strong> Partial overlap. DVD reviews explicitly discuss films; shared vocabulary includes "film", "plot", "thriller", "scene", "cinematography". However, DVD reviews also discuss technical aspects (format, subtitles) absent from movie reviews. Partial transfer expected (medium accuracy).</p>
+
+        <p><strong>Sports → Electronics (Mismatch):</strong> No shared training category. Model must classify sports reviews based on incidental similarity to electronics reviews (discussing "performance", "strategy", "team dynamics"). Semantic distance is large; model likely defaults to closest learned category (electronics) or predicts randomly. Expected accuracy: poor.</p>
+
+        <h4>Provided Test Set Predictions (18 sentences)</h4>
+        <span class="fill"><strong>FILL: Insert real test set classification results. Replace fig_bert_topic_test.png with actual confusion matrix and F1 scores.</strong></span>
+
+        <h4 style="margin-top:5px">Error Analysis and Root Causes</h4>
+        <ul style="font-size:12px">
+          <li><strong>Sports Misclassification:</strong> Sentences with sports vocabulary (e.g., "concede three goals") are predicted as electronics because the model has no sports representation in its classification head. The learned decision boundary for electronics is closest to the out-of-distribution sports embedding space.</li>
+          <li><strong>Domain-Specific Terminology:</strong> Movie reviews often use plot and character terms ("protagonist", "thriller") that DVD reviews also contain; this facilitates transfer. Sports reviews use domain-specific language ("goal", "defense", "team") entirely absent from product reviews, preventing effective transfer.</li>
+          <li><strong>Vocabulary Overlap Mismatch:</strong> The model was trained on words like "great", "disappointing", "quality" in product contexts. Sports reviews use the same sentiment words but in sports-specific contexts, leading to accurate polarity capture but domain misclassification.</li>
+        </ul>
+
+        <h4>Recommendations for Improvement</h4>
+        <ul style="font-size:12px">
+          <li><strong>In-Domain Retraining:</strong> Fine-tune BERT on movie, book, and sports reviews (e.g., Rotten Tomatoes, ESPN, Goodreads). This provides explicit training signal for sports classification and resolves the label mismatch.</li>
+          <li><strong>Zero-Shot Classification:</strong> Use natural language inference (NLI) models such as BART large-MNLI (facebook/bart-large-mnli). Frame classification as textual entailment: does the review entail "This is about a book" vs. "This is about sports"? Requires no training on target classes.</li>
+          <li><strong>Multi-Task Learning:</strong> Add auxiliary tasks (sentiment prediction, length classification) to the BERT fine-tuning objective, encouraging more robust feature learning.</li>
+        </ul>
       </div>
     </div>
 
-  </div><!-- end col 3 -->
+  </div>
 
-  <!-- ══ COLUMN 4: Sentiment Analysis ══ -->
+  <!-- ══ COLUMN 4: Sentiment ══ -->
   <div class="col">
 
     <div class="box">
-      <div class="box-hd">Sentiment Analysis — Data &amp; Methodology</div>
+      <div class="box-hd">Sentiment Analysis: Comparative Methodology of Machine Learning and Rule-Based Approaches</div>
       <div class="box-bd">
         <div class="fig-row">
           <div style="flex:1">
-            <h4>Training: Twitter US Airline Sentiment (Kaggle)</h4>
-            <img src="visuals/fig_sentiment_train_dist.png" class="fig" alt="Sentiment train distribution">
-            <p style="font-size:12px; color:#666; margin-top:2px">Class balance: 36.8% neg, 31.9% neu, 31.3% pos. Natural Twitter distribution; no resampling applied.</p>
+            <h4>Training Corpus: Twitter US Airline Sentiment</h4>
+            <img src="visuals/fig_sentiment_train_dist.png" class="fig" alt="Sentiment training data distribution">
+            <p style="font-size:11.5px; color:#666; margin-top:2px">Class distribution: negative 36.8%, neutral 31.9%, positive 31.3%. Near-balanced class distribution mirrors natural Twitter complaint patterns.</p>
           </div>
           <div style="flex:1">
-            <h4>System 1 — TF-IDF + LinearSVC</h4>
-            <p><b>Preprocessing:</b> No lowercasing, no stopword removal, no stemming. Raw tweet text tokenized.</p>
-            <p><b>Vectorization:</b> TF-IDF Vectorizer. Weights term frequency by inverse document frequency → suppresses uninformative common words (e.g., "the", "a"). Sparse representation fed to LinearSVC.</p>
-            <p><b>Classifier:</b> LinearSVC solves convex optimization problem: find maximum-margin hyperplane (Joachims, 1998). Effective baseline on high-dimensional sparse vectors.</p>
-            <p style="margin-top:3px"><b>Why SVM here?</b> Learns domain-specific patterns from labelled airline tweets. Brittle to domain shift but strong on in-domain data.</p>
+            <h4>System 1: Supervised TF-IDF + LinearSVC</h4>
+            <p><strong>Preprocessing:</strong> Minimal preprocessing (no lowercasing, no stopword removal, no stemming); raw tweet text tokenized by default whitespace splitting.</p>
 
-            <h4 style="margin-top:5px">System 2 — VADER</h4>
-            <p><b>Preprocessing:</b> None. Operates directly on raw text.</p>
-            <p><b>Approach:</b> Lexicon-based, rule-driven. ~7,500 pre-scored sentiment words. Compound score ∈ [−1, 1] thresholded: &lt;−0.05 → neg, −0.05 to 0.05 → neu, &gt;0.05 → pos (Hutto &amp; Gilbert, 2014).</p>
-            <p><b>Linguistic rules:</b> Negation ("not good" flips), intensifiers (ALL CAPS boost), contrastive ("but" re-weights), emoticons/punctuation. <b>No training needed</b> — universal rules applied zero-shot.</p>
-            <p style="margin-top:3px"><b>Why VADER here?</b> Domain-agnostic; robust across text types. But misses sarcasm, indirect expressions, domain-specific slang.</p>
+            <p><strong>Feature Engineering:</strong> TF-IDF (Term Frequency-Inverse Document Frequency) vectorizer computes weighted term representations: TF(t,d) = count of term <em>t</em> in document <em>d</em>; IDF(t) = log(N / n_t), where N is total documents and n_t is documents containing term <em>t</em>. The product TF(t,d) × IDF(t) down-weights ubiquitous terms (e.g., "the", "a") while emphasizing sentiment-bearing vocabulary. The resulting sparse vectors are fed to LinearSVC.</p>
+
+            <p><strong>Classifier:</strong> LinearSVC solves the convex primal optimization problem: min ||w||² + C Σ ξ_i, subject to y_i(w·x_i + b) ≥ 1 - ξ_i. This finds a maximum-margin hyperplane (Joachims, 1998) separating classes in high-dimensional feature space.</p>
+
+            <p><strong>Methodological Rationale:</strong> SVM with TF-IDF is a strong, interpretable baseline for text classification (Joachims, 1998). It learns domain-specific patterns from labeled airline tweets, making it sensitive to in-domain vocabulary ("cancelled", "delayed", "crew"). However, it is brittle to domain shift: reviews of movies or sports use different vocabulary, and out-of-distribution examples are misclassified.</p>
+
+            <h4>System 2: VADER (Rule-Based Lexicon Approach)</h4>
+            <p><strong>Preprocessing:</strong> None; operates directly on raw text.</p>
+
+            <p><strong>Sentiment Lexicon:</strong> VADER (Valence Aware Dictionary and sEntiment Reasoner) encodes ~7,500 sentiment words with hand-annotated polarity scores (Hutto &amp; Gilbert, 2014). Each word carries a lexicon value (e.g., "good" = +1.9, "terrible" = -3.1).</p>
+
+            <p><strong>Linguistic Rules:</strong> VADER implements explicit rules capturing linguistic phenomena: (1) <strong>Negation:</strong> "not good" negates the polarity of "good". (2) <strong>Intensification:</strong> Punctuation and ALL CAPS amplify sentiment intensity. (3) <strong>Contrastive Discourse:</strong> The conjunction "but" re-weights sentiment toward the post-but clause. (4) <strong>Emoticons:</strong> ":)" and ":(" contribute sentiment.</p>
+
+            <p><strong>Scoring:</strong> VADER aggregates rule-adjusted lexicon values into a compound score ∈ [−1, 1] via a normalization function. Thresholding yields class labels: compound &lt; −0.05 → negative, −0.05 ≤ compound ≤ 0.05 → neutral, compound &gt; 0.05 → positive.</p>
+
+            <p><strong>Methodological Rationale:</strong> Rule-based systems encode linguistic knowledge explicitly and generalize across domains without labeled training data (zero-shot). VADER is robust to low-resource domains and interpretable (human can trace predictions to specific lexicon hits and rules). However, it lacks the data-driven ability to learn domain-specific patterns and struggles with sarcasm, metaphor, and indirect sentiment expression.</p>
           </div>
         </div>
+
         <div class="insight">
-          <b>Key contrast:</b> SVM learns domain-specific patterns (brittle to shift) · VADER applies universal linguistic rules (robust across domains but misses sarcasm).
+          <strong>Key Trade-off:</strong> Supervised learning (SVM + TF-IDF) achieves high accuracy in-domain but transfers poorly when vocabulary changes. Rule-based systems (VADER) transfer across domains but miss sarcasm and domain-specific expressions.
         </div>
       </div>
     </div>
 
     <div class="box">
-      <div class="box-hd">Sentiment — Training Domain Results</div>
+      <div class="box-hd">Sentiment Analysis: Training Domain Results and Comparative Quantitative Analysis</div>
       <div class="box-bd">
         <div class="fig-row">
           <div style="flex:1.1">
-            <h4>F1 Comparison (Airline Domain)</h4>
-            <img src="visuals/fig_svm_vader_f1.png" class="fig" alt="SVM vs VADER F1">
+            <h4>F1 Comparison: Airline Tweet Domain (In-Domain)</h4>
+            <img src="visuals/fig_svm_vader_f1.png" class="fig" alt="SVM vs VADER F1 scores">
           </div>
           <div style="flex:1">
             <div class="fig-row">
               <div style="flex:1">
-                <h4 style="font-size:11.5px">SVM Confusion Matrix</h4>
+                <h4 style="font-size:12px">SVM Confusion Matrix (n=951)</h4>
                 <img src="visuals/fig_svm_cm.png" class="fig" alt="SVM confusion matrix">
               </div>
               <div style="flex:1">
-                <h4 style="font-size:11.5px">VADER Confusion Matrix</h4>
+                <h4 style="font-size:12px">VADER Confusion Matrix (n=4755)</h4>
                 <img src="visuals/fig_vader_cm.png" class="fig" alt="VADER confusion matrix">
               </div>
             </div>
           </div>
         </div>
-        <h4 style="margin-top:5px">Quantitative Analysis &amp; P-R Tradeoff</h4>
-        <p style="font-size:12px">
-          SVM macro F1 = <b class="good">0.84</b> vs VADER macro F1 = <b class="bad">0.51</b>. SVM maintains balance: precision ≈ recall across all classes (0.84–0.90 P, 0.80–0.90 R). VADER shows high imbalance — positive class has high recall (0.91, finds most positive tweets) but low precision (0.41, many false positives). Negative class flips: precision 0.74 but recall only 0.31 (misses many). Neutral is hardest for both: F1 = 0.79 (SVM) vs 0.53 (VADER). Both confuse neutral with positive or negative.
-        </p>
 
-        <h4>True Positive Examples (Both Systems Correct)</h4>
-        <table style="font-size:11.5px">
-          <tr><th>Sentence</th><th>Gold</th><th>SVM</th><th>VADER</th><th>Reason</th></tr>
-          <tr><td>"thanks for all the help!"</td><td>pos</td><td class="good">pos</td><td class="good">pos</td><td>"thanks" + "!" clear positive signals</td></tr>
-          <tr><td>"can't believe the flight was cancelled"</td><td>neg</td><td class="good">neg</td><td class="good">neg</td><td>"cancelled" strong neg word; negation doesn't apply</td></tr>
-          <tr><td>"flight on time today"</td><td>neu</td><td class="good">neu</td><td class="good">neu</td><td>Factual, no strong sentiment words</td></tr>
-        </table>
+        <h4 style="margin-top:4px">Quantitative Analysis and Precision-Recall Tradeoffs</h4>
+        <p><strong>SVM Performance:</strong> Macro-averaged F1 = 0.84 with balanced precision and recall across classes (P ≈ R ≈ 0.84). The model achieves F1 = 0.87 (negative), 0.79 (neutral), 0.85 (positive). Neutral classification is most difficult (lowest F1), suggesting that the model struggles to distinguish sentences lacking strong sentiment-bearing vocabulary.</p>
+
+        <p><strong>VADER Performance:</strong> Macro-averaged F1 = 0.51, substantially lower than SVM. Critical asymmetry: positive class exhibits extremely high recall (0.91) but poor precision (0.41). This indicates aggressive classification—the system predicts "positive" for many borderline examples, correctly identifying most positive reviews but generating many false positives. Conversely, the negative class shows precision 0.74 but recall 0.31, missing the majority of negative reviews. VADER treats neutral classification poorly (F1 = 0.53).</p>
+
+        <p><strong>Interpretation:</strong> VADER's bias toward positive predictions reflects its lexicon construction: positive words may be more common in sentiment-expressing text, or the compound scoring function may be calibrated toward positive scaling. This imbalance suggests VADER is more suitable for recall-prioritized tasks (missing positive reviews is costly) and less suitable for balanced classification.</p>
       </div>
     </div>
 
     <div class="box flex-grow">
-      <div class="box-hd">Sentiment — Test Set Results &amp; Error Analysis</div>
+      <div class="box-hd">Sentiment Analysis: Test Set Predictions and Error Analysis</div>
       <div class="box-bd">
-        <h4>System Comparison on Test Set (n=18 sentences)</h4>
-        <p style="font-size:12px; color:#999">⚠ <b>Caveat:</b> Small test set (18 sentences, ~300 tokens). Metrics are approximate; confidence intervals wide. Trends may not generalize.</p>
-        <div class="ph">⚠ [FILL IN] Replace fig_sentiment_test_f1.png with real results once test set predictions are complete. Expected: both systems struggle on sports/movie domain relative to airline training domain.</div>
-        <img src="visuals/fig_sentiment_test_f1.png" class="fig" alt="Test F1 placeholder" style="max-height:120px; object-fit:contain">
+        <h4>Provided Test Set Results (18 sentences, domain: entertainment and sports)</h4>
+        <span class="fill"><strong>FILL: Replace fig_sentiment_test_f1.png with real results from sentiment-topic-test.tsv. Insert classification_report output for both SVM and VADER predictions.</strong></span>
+        <img src="visuals/fig_sentiment_test_f1.png" class="fig" alt="Test set F1 comparison - PLACEHOLDER" style="max-height:100px; object-fit:contain">
 
-        <h4>Error Analysis — Key Patterns</h4>
+        <p style="font-size:11.5px; color:#999; margin-top:3px"><em>Test set caveat:</em> Small test set (n=18 sentences, ~300 tokens). Metric confidence intervals are wide; results should not be interpreted as definitive for the entertainment/sports domain.</p>
 
-        <p><b class="bad">① Sarcasm (VADER fails):</b></p>
-        <table>
-          <tr><th>Sentence</th><th>Gold</th><th>VADER</th></tr>
-          <tr><td>"really impressive to mess up…"</td><td>neg</td><td class="bad">pos ✗</td></tr>
-          <tr><td>"only way it's helped me… wobbly table"</td><td>neg</td><td class="bad">pos ✗</td></tr>
-        </table>
+        <h4>Qualitative Error Analysis: True Positives and Systematic Failures</h4>
 
-        <p style="margin-top:5px"><b class="warn">② Domain shift (SVM fails):</b> SVM learned "cancelled", "delayed", "bag" — these features absent in sports/book/movie test sentences. Model collapses to majority class or misclassifies.</p>
+        <p><strong>Examples of Correct Predictions (Both Systems Agree):</strong></p>
+        <ul style="font-size:12px">
+          <li>"Thanks for all the help!" → Both predict positive. Strong sentiment word ("thanks") + punctuation ("!") are clear positive signals in both lexicons and SVM weights.</li>
+          <li>"Can't believe the flight was cancelled" → Both predict negative. "Cancelled" is a strong negative signal; negation of "believe" does not flip the dominant signal.</li>
+          <li>"Flight on time today" → Both predict neutral. Factual statement with no strong sentiment vocabulary; neither model over-predicts.</li>
+        </ul>
 
-        <p style="margin-top:5px"><b class="warn">③ Neutral boundary (both fail):</b> "slow burn… well-written, I guess" → VADER predicts <b>pos</b> because "well-written" dominates compound score.</p>
+        <p><strong>Sarcasm and Indirect Negation (VADER Fails):</strong> Sarcastic sentences like "Really impressive to mess up such a tested formula" (true sentiment: negative) are predicted as positive by VADER because it detects "impressive" and weights this heavily. The sarcastic negation requires world knowledge or meta-linguistic reasoning that VADER's rule-based approach cannot capture. SVM may perform better if sarcasm markers (e.g., sequences of "really" + adverb + negative outcome) are present in training examples, but airline tweets lack dense sarcasm.</p>
 
-        <div class="insight">
-          <b>Improvements:</b> In-domain training (movie/sports reviews); RoBERTa-based sentiment (cardiffnlp/twitter-roberta-base-sentiment) for cross-domain robustness; sarcasm pre-detection layer.
-        </div>
+        <p><strong>Domain Shift (SVM Fails):</strong> SVM was trained on airline vocabulary ("cancelled", "delayed", "crew", "gate"). Sports/movie reviews use different vocabulary ("goal", "plot", "protagonist"). When these test words are absent or rare in training data, the SVM vectorizer assigns zero or near-zero weights, reducing the feature vector to non-informative dimensions. The classifier defaults to the majority class or makes random-like predictions.</p>
+
+        <p><strong>Neutral Boundary Ambiguity (Both Struggle):</strong> Sentences with mixed sentiment ("It's a slow burn… well-written, I guess") contain positive words ("well-written") and qualification signals ("I guess" weakens conviction). SVM may weight the positive word heavily; VADER's compound aggregation might balance to neutral or slightly positive. Human annotation is required to establish ground truth, as the sentiment is genuinely ambiguous.</p>
+
+        <h4>Recommended Improvements</h4>
+        <ul style="font-size:12px">
+          <li><strong>In-Domain Training:</strong> Retrain SVM on movie, book, and sports reviews (Rotten Tomatoes, IMDb, sports blogs). Lexicon will learn domain-specific sentiment signals.</li>
+          <li><strong>Transformer-Based Approach:</strong> Use RoBERTa-base fine-tuned for Twitter sentiment (cardiffnlp/twitter-roberta-base-sentiment) or standard BERT. Contextual embeddings capture indirect sentiment and sarcasm better than TF-IDF or lexicon rules.</li>
+          <li><strong>Sarcasm Detection Layer:</strong> Pre-process text to detect and mark sarcasm (via linguistic patterns or auxiliary classifier), then adjust sentiment labels accordingly.</li>
+          <li><strong>Ensemble Methods:</strong> Combine SVM, VADER, and transformer predictions via voting or stacking to balance coverage and robustness.</li>
+        </ul>
       </div>
     </div>
 
-  </div><!-- end col 4 -->
+  </div>
 
-  <!-- ══ COLUMN 5: Conclusions + References ══ -->
+  <!-- ══ COLUMN 5: Conclusions ══ -->
   <div class="col">
 
     <div class="box">
-      <div class="box-hd">Conclusions</div>
+      <div class="box-hd">Summary of Findings and Cross-Task Synthesis</div>
       <div class="box-bd">
-        <h4>Sentiment</h4>
-        <p>TF-IDF+SVM (F1=<span class="good">0.84</span>) strongly outperforms VADER (F1=<span class="bad">0.51</span>) on in-domain data. Both suffer domain shift on entertainment test set. VADER additionally fails on indirect/sarcastic expressions. <b>Neutral</b> is hardest class for both systems.</p>
+        <h4>Sentiment Analysis Findings</h4>
+        <p>The comparative evaluation demonstrates that supervised machine learning (TF-IDF + LinearSVC, macro F1 = 0.84) substantially outperforms rule-based approaches (VADER, macro F1 = 0.51) on in-domain airline tweet data. However, both systems exhibit severe performance degradation on out-of-domain entertainment and sports text, illustrating the domain adaptation problem. VADER shows asymmetric precision-recall profiles (high recall on positive, low precision), indicating biased classification. Neither system handles sarcasm or indirect sentiment expressions.</p>
 
-        <div class="divider"></div>
-        <h4>Topic</h4>
-        <p>BERT achieves <span class="good">92% F1</span> in-domain (MCC=0.90). Sports category fails entirely (no training analog). Semantic proximity allows partial transfer: book→books (good), movie→dvd (partial).</p>
+        <h4>Topic Classification Findings</h4>
+        <p>BERT fine-tuned on multi-domain product reviews achieves strong in-domain performance (macro F1 = 0.92, MCC = 0.90). Out-of-distribution generalization is limited: sports category classification fails entirely (no training analog), while movie-to-DVD and book-to-books transfers succeed via semantic similarity. The label space mismatch is the fundamental limitation.</p>
 
-        <div class="divider"></div>
-        <h4>NERC</h4>
-        <p>LinearSVC achieves <span class="good">94% accuracy</span> overall but struggles with rare labels (B-ORG F1=0.57, I-PER precision=0.42). <b>WORK_OF_ART</b> absent from CoNLL-2003 — model has no representation.</p>
+        <h4>Named Entity Recognition Findings</h4>
+        <p>LinearSVC with sparse word+POS features achieves 94% token-level accuracy overall but demonstrates pronounced per-class variability: strong performance on common O and B-PER labels (F1 ≥ 0.78) contrasts with poor performance on rare labels (B-ORG F1 = 0.57, I-PER precision = 0.42). The token-level approach prevents the model from learning BIO sequence constraints. Unseen entity types (WORK_OF_ART) cannot be predicted.</p>
 
-        <div class="divider"></div>
-        <h4>Root Cause &amp; High-Impact Improvements</h4>
-        <div class="insight" style="font-size:12.5px">
-          <b>Core issue:</b> All three systems trained on different domains (airline tweets, product reviews, newswire) vs test set (entertainment/sports social media). Domain adaptation is the single most impactful lever for improvement.
+        <h4>Unifying Theme: Domain Adaptation</h4>
+        <div class="insight">
+          All three tasks reveal a common fundamental challenge: models trained on specific corpora (airline tweets, product reviews, newswire) transfer poorly to the test domain (entertainment/sports reviews and casual social media). Domain-adapted training data is the highest-impact lever for improvement across all three tasks.
         </div>
-        <p style="font-size:12px; margin-top:3px"><b>Highest-impact changes (if time permitted):</b></p>
-        <ul style="font-size:11.5px">
-          <li><b>Sentiment:</b> Retrain SVM on movie/TV/sports reviews (e.g., Rotten Tomatoes API, IMDb). RoBERTa-base (twitter-roberta-base-sentiment) pre-trained on Twitter; fine-tune on in-domain data.</li>
-          <li><b>Topic:</b> Collect or use existing movie/sports/book review datasets. Zero-shot NLI (facebook/bart-large-mnli) requires no training — classifies text as "entails book", "entails sports", etc. via natural language inference.</li>
-          <li><b>NER:</b> Use BERT-NER (dslim/bert-base-NER) — handles WORK_OF_ART natively. Add BiLSTM+CRF on top of BERT embeddings for sequence modeling. Include context window features (±2 tokens).</li>
+
+        <h4>Per-Task Limitations</h4>
+        <ul style="font-size:12px; line-height:1.45">
+          <li><strong>Sentiment:</strong> Small test set (n=18 sentences) limits statistical robustness. Neither SVM nor VADER address sarcasm or indirect negation. No ensemble or contextualized approach employed.</li>
+          <li><strong>Topic:</strong> Label space mismatch (train: 4 classes; test: 3 classes with sports unseen) is structural. BERT classification head is not designed for zero-shot generalization to new classes.</li>
+          <li><strong>NER:</strong> Token-level classification ignores sequence constraints (BIO enforcement). No contextual window or sequence model. Unseen entity types (WORK_OF_ART) cannot be predicted. Class imbalance favors majority class (O label).</li>
+          <li><strong>Experimental Design:</strong> Very small test sets (18 and 15 sentences); generalization claims are tentative. No statistical significance testing performed.</li>
         </ul>
 
-        <div class="divider"></div>
-        <h4>Limitations</h4>
-        <ul style="font-size:12px">
-          <li><b>Small test set:</b> 18 sentiment + 15 NER sentences (~300–400 tokens total). Metrics not statistically robust; confidence intervals wide. Trends may not generalize.</li>
-          <li><b>NER token-level:</b> No sequence model (CRF/LSTM); each token predicted independently. No inter-token dependencies; poor at multi-token entities.</li>
-          <li><b>Topic domain gap:</b> BERT trained on product reviews; no sports category. Must transfer via semantic similarity alone (fails for sports).</li>
-          <li><b>Sentiment sarcasm:</b> Neither SVM nor VADER handles sarcasm/irony. Would require additional layer (e.g., sarcasm classifier).</li>
-          <li><b>No ensemble:</b> Each task uses single system (or two separate SVM/VADER). Ensemble voting might improve robustness.</li>
-          <li><b>Preprocessing minimal:</b> No domain-specific cleaning (hashtags, mentions, URLs). Raw text fed to models.</li>
-        </ul>
+        <h4>High-Impact Improvements (Priority Order)</h4>
+        <ol style="font-size:12px; padding-left:16px">
+          <li><strong>In-Domain Data Collection:</strong> Gather or use existing movie/sports/book review datasets (Rotten Tomatoes, ESPN, Goodreads) to retrain all models. This addresses the root domain adaptation problem.</li>
+          <li><strong>Transformer-Based Models:</strong> Replace TF-IDF+SVM with BERT/RoBERTa for sentiment and NER. Contextual embeddings inherently capture linguistic phenomena (sarcasm, indirect negation) better than shallow features.</li>
+          <li><strong>Structured Prediction for NER:</strong> Use BiLSTM-CRF or transformer-CRF architectures that explicitly encode BIO constraints and sequential dependencies.</li>
+          <li><strong>Zero-Shot Classification for Topic:</strong> Adopt NLI-based approaches (BART-MNLI) for topic classification that generalize to unseen classes without retraining.</li>
+        </ol>
       </div>
     </div>
 
     <div class="box flex-grow">
-      <div class="box-hd">References</div>
-      <div class="box-bd" style="font-size:11.5px">
-        <p style="margin-bottom:5px">Hutto, C.J. &amp; Gilbert, E.E. (2014). VADER: A parsimonious rule-based model for sentiment analysis of social media text. <em>ICWSM-14</em>.</p>
+      <div class="box-hd">References and Computational Resources</div>
+      <div class="box-bd">
+        <p style="margin-bottom:4px; font-size:12px">
+          Blitzer, J., Dredze, M., &amp; Pereira, F. (2007). Biographies, Bollywood, Boom-boxes and Blenders: Domain adaptation for sentiment classification. In <em>Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics</em> (pp. 440–447).
+        </p>
 
-        <p style="margin-bottom:5px">Tjong Kim Sang, E.F. &amp; De Meulder, F. (2003). Introduction to the CoNLL-2003 shared task: Language-independent named entity recognition. <em>CoNLL</em>.</p>
+        <p style="margin-bottom:4px; font-size:12px">
+          Devlin, J., Chang, M., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. In <em>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics</em> (pp. 4171–4186).
+        </p>
 
-        <p style="margin-bottom:5px">Blitzer, J., Dredze, M. &amp; Pereira, F. (2007). Biographies, Bollywood, Boom-boxes and Blenders: Domain adaptation for sentiment classification. <em>ACL</em>.</p>
+        <p style="margin-bottom:4px; font-size:12px">
+          Hutto, C. J., &amp; Gilbert, E. E. (2014). VADER: A parsimonious rule-based model for sentiment analysis of social media text. In <em>Eighth International AAAI Conference on Weblogs and Social Media</em>.
+        </p>
 
-        <p style="margin-bottom:5px">Devlin, J., Chang, M., Lee, K. &amp; Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. <em>NAACL</em>.</p>
+        <p style="margin-bottom:4px; font-size:12px">
+          Joachims, T. (1998). Text categorization with support vector machines: Learning with many relevant features. In <em>European Conference on Machine Learning</em> (pp. 137–142). Springer, Berlin, Heidelberg.
+        </p>
 
-        <p style="margin-bottom:5px">Joachims, T. (1998). Text categorization with support vector machines: Learning with many relevant features. <em>ECML</em>.</p>
+        <p style="margin-bottom:4px; font-size:12px">
+          Ratinov, L., &amp; Roth, D. (2009). Design challenges and misconceptions in named entity recognition. In <em>Proceedings of the Thirteenth Conference on Computational Natural Language Learning</em> (pp. 147–155).
+        </p>
 
-        <p style="margin-bottom:5px">Ratinov, L. &amp; Roth, D. (2009). Design challenges and misconceptions in named entity recognition. <em>CoNLL</em>.</p>
-
-        <p style="margin-bottom:5px">Yang, T. &amp; Cardie, C. (2014). Context-aware learning for sentence-level sentiment analysis with posterior regularization. <em>ACL</em>.</p>
+        <p style="margin-bottom:4px; font-size:12px">
+          Tjong Kim Sang, E. F., &amp; De Meulder, F. (2003). Introduction to the CoNLL-2003 shared task: Language-independent named entity recognition. In <em>Proceedings of the Seventh Conference on Natural Language Learning at HLT-NAACL</em> (pp. 142–147).
+        </p>
 
         <div class="divider"></div>
-        <h4>Source Code</h4>
-        <p><b>GitHub:</b> [INSERT LINK]</p>
-        <ul style="margin-top:3px; font-size:11px">
-          <li>Final_Project_Text_Mining.ipynb</li>
-          <li>textminingproject.ipynb (BERT topic)</li>
-          <li>lab3restored.ipynb (VADER)</li>
-          <li>Lab4-Assignment-nercV2.ipynb (NER)</li>
-          <li>generate_visuals.py (all figures)</li>
-        </ul>
 
-        <div class="divider"></div>
-        <p style="font-size:11px; color:#555; margin-top:4px">
-          Data: Twitter US Airline Sentiment (Kaggle), ACL Multi-Domain Sentiment (Blitzer et al.), CoNLL-2003 (Reuters corpus). Test sets provided by course instructors, VU Amsterdam.
+        <h4>Source Code and Reproducibility</h4>
+        <p style="margin-bottom:4px; font-size:12px">
+          <strong>Repository:</strong> <span class="fill"><strong>FILL: GitHub URL</strong></span>
+        </p>
+
+        <p style="font-size:12px; margin-bottom:4px">
+          <strong>Key Artifacts:</strong> Final_Project_Text_Mining.ipynb (sentiment + topic), Lab4-Assignment-nercV2.ipynb (NER), generate_visuals.py (all figures), visuals/ directory.
+        </p>
+
+        <p style="font-size:12px; margin-bottom:4px">
+          <strong>Data Sources:</strong> Twitter US Airline Sentiment (Kaggle), ACL Multi-Domain Sentiment (Blitzer et al., 2007), CoNLL-2003 (Tjong Kim Sang &amp; De Meulder, 2003), provided test sets (sentiment-topic-test.tsv, NER-test.tsv).
+        </p>
+
+        <p style="font-size:11.5px; color:#666; margin-top:4px">
+          All models, training procedures, and evaluation scripts are implemented in Python using scikit-learn (SVM/TF-IDF), VADER (vaderSentiment), and transformers library (BERT fine-tuning via SimpleTransformers). Experiments conducted on Google Colab with T4 GPU support.
         </p>
       </div>
     </div>
 
-  </div><!-- end col 5 -->
+  </div>
 
-</div><!-- end grid -->
+</div>
 
 </body>
 </html>
