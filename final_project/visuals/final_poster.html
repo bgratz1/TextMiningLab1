@@ -214,7 +214,7 @@ strong { font-weight: bold; }
     <div class="box">
       <div class="box-hd">Introduction and Research Objectives</div>
       <div class="box-bd">
-        <p>This project researches the application of three core Natural Language Processing (NLP) tasks: Sentiment Classification, Topic Classification, and Named Entity Recognition on a test set of 18 sentences and 15 annotated token sequences spanning the entertainment domain namely books and films, and sports domains. Because the machine learning models are trained on data that differs from the test set (such as airline tweets, Amazon product reviews, and Reuters newswire), this project provides a realistic, quantitative analysis of model performance and error characterization in domain transfer scenarios.</p>
+        <p>This project researches the application of three core Natural Language Processing (NLP) tasks: Sentiment Classification, Topic Classification, and Named Entity Recognition on a test set of 18 sentences and 15 annotated token sequences spanning the entertainment domain namely books, films, and restaurants. Because the machine learning models are trained on data that differs from the test set (such as airline tweets, Amazon product reviews, and Reuters newswire), this project provides a realistic, quantitative analysis of model performance and error characterization in domain transfer scenarios.</p>
         <p style="font-size:11px; color:#666; margin-top:4px"><em>Note: Given the small test set size (n=18, n=15), findings should be interpreted as case studies rather than definitive benchmarks. No statistical significance testing or confidence intervals computed; results are descriptive. Conclusions about generalization are tentative and intended to motivate future work with larger datasets.</em></p>
 
         <h4>Topic Classification</h4>
@@ -244,7 +244,7 @@ strong { font-weight: bold; }
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Ben Gratz</strong><br>
-          Fine-tuned BERT on Amazon Reviews (learning rate 2e-5, 3 epochs). Analyzed domain mismatch between training (books, DVD, electronics) and test (books, movies, sports). Wrote topic section.
+          Fine-tuned BERT on Amazon Reviews (learning rate 2e-5, 3 epochs). Analyzed domain mismatch between training (books, DVD, electronics) and test (books, movies, restaurants). Wrote topic section.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
@@ -474,9 +474,9 @@ strong { font-weight: bold; }
       <div class="box-bd">
         <h4>Key Findings</h4>
 
-        <p><strong>Sentiment Analysis</strong> Evaluating sentence-level sentiment across positive, neutral, and negative classes shows a trade-off between supervised machine learning and rule-based approaches with domain transfer. Because the training data (such as airline tweets) differed from the entertainment and sports test sets, cross-domain application introduced high variance. While supervised models often overfit to the specific lexical markers of their original training data, rule-based lexicon approaches proved to work better with sudden domain shifts, demonstrating that vocabulary alignment remains a hurdle when classifying sentiment across mismatched data.</p>
+        <p><strong>Sentiment Analysis</strong> Evaluating sentence-level sentiment across positive, neutral, and negative classes shows a trade-off between supervised machine learning and rule-based approaches with domain transfer. Because the training data (such as airline tweets) differed from the entertainment and restaurant test sets, cross-domain application introduced high variance. While supervised models often overfit to the specific lexical markers of their original training data, rule-based lexicon approaches proved to work better with sudden domain shifts, demonstrating that vocabulary alignment remains a hurdle when classifying sentiment across mismatched data.</p>
 
-        <p><strong>Topic Classification</strong> The fine-tuned BERT model demonstrated highly robust semantic transfer when navigating direct domain matches, such as text labeled "books," or partial matches, like mapping a "dvd" training label to a "movie" test label. However, this reached its limit in scenarios where no label overlap existed. Attempting to classify completely unseen domain categories, for example, transferring from a "kitchen" domain in the training set to a "sports" domain in the test set, resulted in significant performance degradation, highlighting the limitation of transformer generalization when it lacks a shared vocabulary space.</p>
+        <p><strong>Topic Classification</strong> The fine-tuned BERT model demonstrated highly robust semantic transfer when navigating direct domain matches, such as text labeled "books," or partial matches, like mapping a "dvd" training label to a "movie" test label. However, this reached its limit in scenarios where no label overlap existed. Attempting to classify completely unseen domain categories, for example, transferring from a "kitchen" domain in the training set to a "restaurant" domain in the test set, resulted in significant performance degradation, highlighting the limitation of transformer generalization when it lacks a shared vocabulary space.</p>
 
         <p><strong>Named Entity Recognition</strong> Evaluating the baseline LinearSVC model revealed a big performance gap between in-domain validation and out-of-domain testing. While token-level feature engineering enabled strong initial boundary detection on the CoNLL-2003 dataset, performance dropped significantly on the actual test set. The model struggled to extrapolate to entity classes not present in its training data, completely failing to recognize the "work_of_art" category, while a noticeable drop in identifying the inside of entities relative to the beginning of entities indicated that the baseline model struggled with capturing the full boundaries of multi-token phrases without any deeper contextual awareness.</p>
 
@@ -487,7 +487,7 @@ strong { font-weight: bold; }
 
         <h4>Improvements by Priority</h4>
 
-        <p><strong>Collect In-Domain Data:</strong> Gather movie/sports/book reviews. Retrain on target. Root cause fix.</p>
+        <p><strong>Collect In-Domain Data:</strong> Gather movie/restaurant/book reviews. Retrain on target. Root cause fix.</p>
         <p><strong>Transformer Architectures:</strong> Replace SVM with BERT/DistilBERT for sentiment and NER. Contextual embeddings better handle sarcasm and semantics.</p>
         <p><strong>Sequence Models for NER:</strong> BiLSTM-CRF encodes BIO constraints. Solves multi-token entities.</p>
         <p><strong>Zero-Shot Classification:</strong> NLI approaches (BART-MNLI) handle unseen classes without retraining.</p>
