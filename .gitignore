@@ -6,3 +6,8 @@ __pycache__
 notebooks
 KEY*.ipynb
 lab_sessions/lab3/*/
+
+# Sentiment analysis — venv and archives (install deps locally)
+final_project/sentiment_an.zip
+final_project/sentiment_an/sentiment/
+final_project/**/__MACOSX/
