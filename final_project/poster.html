@@ -236,7 +236,7 @@ strong { font-weight: bold; }
 
         <p style="font-size:11.5px; line-height:1.5">
           <strong>Evelina Ravlusevic</strong><br>
-          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. RoBERTa transformer-based sentiment classification. Analysis: Sentiment classification error patterns; false positive/negative characterization on airline tweets domain. Poster: Sentiment section composition and result integration.
+          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. DistilBERT transformer-based sentiment classification. Analysis: Sentiment classification error patterns; false positive/negative characterization on airline tweets domain. Poster: Sentiment section composition and result integration.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
@@ -251,7 +251,7 @@ strong { font-weight: bold; }
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Ignacio Garcia Aracil</strong><br>
-          Coding: RoBERTa (DistilBERT) sentiment classification model implementation; transformer pipeline integration with confidence-based threshold mapping for 3-class sentiment labels; test set prediction infrastructure for both SVM and RoBERTa systems on sentiment-topic-test.tsv (18 sentences). Visualization: Generated all F1 comparison visualizations (SVM vs RoBERTa across training and test sets); created publication-ready bar charts with value labels and categorical breakdowns. Analysis: Comparative performance evaluation between supervised machine learning (SVM) and transformer-based approaches (RoBERTa); quantitative result synthesis across all three NLP tasks; error analysis on sentiment test set including true positive identification and systematic failure characterization. Poster: Structural design, grid layout optimization, CSS styling, integration of all visualizations, and cross-section content coordination.
+          Coding: DistilBERT (DistilBERT) sentiment classification model implementation; transformer pipeline integration with confidence-based threshold mapping for 3-class sentiment labels; test set prediction infrastructure for both SVM and DistilBERT systems on sentiment-topic-test.tsv (18 sentences). Visualization: Generated all F1 comparison visualizations (SVM vs DistilBERT across training and test sets); created publication-ready bar charts with value labels and categorical breakdowns. Analysis: Comparative performance evaluation between supervised machine learning (SVM) and transformer-based approaches (DistilBERT); quantitative result synthesis across all three NLP tasks; error analysis on sentiment test set including true positive identification and systematic failure characterization. Poster: Structural design, grid layout optimization, CSS styling, integration of all visualizations, and cross-section content coordination.
         </p>
       </div>
     </div>
@@ -517,7 +517,7 @@ strong { font-weight: bold; }
         <h4>Provided Test Set Results (18 sentences, domain: entertainment and sports)</h4>
         <img src="visuals/fig_sentiment_test_f1.png" class="fig" alt="Test set F1 comparison" style="max-height:140px; object-fit:contain">
 
-        <p style="font-size:11.5px; color:#999; margin-top:3px"><em>Test set caveat:</em> Small test set (n=18 sentences, balanced: 6 positive, 6 neutral, 6 negative). RoBERTa demonstrated superior performance on the small test set (61% accuracy) compared to SVM (39% accuracy), though confidence intervals are wide given the limited sample size. Both systems struggle with neutral sentiment classification in the out-of-domain test set.</p>
+        <p style="font-size:11.5px; color:#999; margin-top:3px"><em>Test set caveat:</em> Small test set (n=18 sentences, balanced: 6 positive, 6 neutral, 6 negative). DistilBERT demonstrated superior performance on the small test set (61% accuracy) compared to SVM (39% accuracy), though confidence intervals are wide given the limited sample size. Both systems struggle with neutral sentiment classification in the out-of-domain test set.</p>
 
         <h4>Qualitative Error Analysis: True Positives and Systematic Failures</h4>
 
@@ -537,7 +537,7 @@ strong { font-weight: bold; }
         <h4>Recommended Improvements</h4>
         <ul style="font-size:12px">
           <li><strong>In-Domain Training:</strong> Retrain SVM on movie, book, and sports reviews (Rotten Tomatoes, IMDb, sports blogs). Lexicon will learn domain-specific sentiment signals.</li>
-          <li><strong>Transformer-Based Approach:</strong> Use RoBERTa-base fine-tuned for Twitter sentiment (cardiffnlp/twitter-roberta-base-sentiment) or standard BERT. Contextual embeddings capture indirect sentiment and sarcasm better than TF-IDF or lexicon rules.</li>
+          <li><strong>Transformer-Based Approach:</strong> Use DistilBERT-base fine-tuned for Twitter sentiment (cardiffnlp/twitter-roberta-base-sentiment) or standard BERT. Contextual embeddings capture indirect sentiment and sarcasm better than TF-IDF or lexicon rules.</li>
           <li><strong>Sarcasm Detection Layer:</strong> Pre-process text to detect and mark sarcasm (via linguistic patterns or auxiliary classifier), then adjust sentiment labels accordingly.</li>
           <li><strong>Ensemble Methods:</strong> Combine SVM, VADER, and transformer predictions via voting or stacking to balance coverage and robustness.</li>
         </ul>
@@ -550,36 +550,45 @@ strong { font-weight: bold; }
   <div class="col">
 
     <div class="box">
-      <div class="box-hd">Summary of Findings and Cross-Task Synthesis</div>
+      <div class="box-hd">Findings and Cross-Task Synthesis</div>
       <div class="box-bd">
-        <h4>Sentiment Analysis Findings</h4>
-        <p>The comparative evaluation demonstrates that supervised machine learning (TF-IDF + LinearSVC, macro F1 = 0.84) substantially outperforms rule-based approaches (VADER, macro F1 = 0.51) on in-domain airline tweet data. However, both systems exhibit severe performance degradation on out-of-domain entertainment and sports text, illustrating the domain adaptation problem. VADER shows asymmetric precision-recall profiles (high recall on positive, low precision), indicating biased classification. Neither system handles sarcasm or indirect sentiment expressions.</p>
+        <h4>Findings</h4>
 
-        <h4>Topic Classification Findings</h4>
-        <p>BERT fine-tuned on multi-domain product reviews achieves strong in-domain performance (macro F1 = 0.92, MCC = 0.90). Out-of-distribution generalization is limited: sports category classification fails entirely (no training analog), while movie-to-DVD and book-to-books transfers succeed via semantic similarity. The label space mismatch is the fundamental limitation.</p>
+        <p><strong>Sentiment Analysis:</strong> Supervised machine learning (TF-IDF + LinearSVC, macro F1 = 0.84) substantially outperforms rule-based approaches (VADER, macro F1 = 0.51) on in-domain airline tweets. DistilBERT (61% test accuracy) transfers better than SVM (39%) to new domains. However, all systems exhibit severe performance degradation on out-of-domain entertainment and sports text. VADER shows asymmetric precision-recall (high recall on positive, low precision), indicating biased classification. Neither system handles sarcasm or indirect sentiment expressions.</p>
 
-        <h4>Named Entity Recognition Findings</h4>
-        <p>LinearSVC with sparse word+POS features achieves 94% token-level accuracy overall but demonstrates pronounced per-class variability: strong performance on common O and B-PER labels (F1 ≥ 0.78) contrasts with poor performance on rare labels (B-ORG F1 = 0.57, I-PER precision = 0.42). The token-level approach prevents the model from learning BIO sequence constraints. Unseen entity types (WORK_OF_ART) cannot be predicted.</p>
+        <p><strong>Topic Classification:</strong> BERT achieves strong in-domain performance (92% accuracy, macro F1 = 0.92, MCC = 0.90). Out-of-distribution generalization is limited: sports classification fails entirely (no training analog), while movie-to-DVD and book-to-books transfers succeed via semantic similarity. Label space mismatch is fundamental limitation—model cannot learn categories absent from training.</p>
 
-        <h4>Unifying Theme: Domain Adaptation</h4>
+        <p><strong>Named Entity Recognition:</strong> LinearSVC achieves 94% overall accuracy but shows pronounced per-class variability. Strong on common non-entity (O: 0.99 F1) and person boundaries (B-PER: 0.78 F1). Weak on rare labels (B-ORG: 0.57 F1) and multi-token continuations (I-PER: 0.57 F1). Token-level approach prevents learning BIO sequence constraints. Unseen entity types (WORK_OF_ART) cannot be predicted—zero training examples means zero performance.</p>
+
+        <h4>Cross-Task Patterns and General Conclusions</h4>
+
         <div class="insight">
-          All three tasks reveal a common fundamental challenge: models trained on specific corpora (airline tweets, product reviews, newswire) transfer poorly to the test domain (entertainment/sports reviews and casual social media). Domain-adapted training data is the highest-impact lever for improvement across all three tasks.
+          <strong>Unifying Theme—Domain Adaptation Dominates:</strong> All three tasks reveal one core problem: models trained on specific corpora (airline tweets, product reviews, newswire) transfer poorly to different domains. Vocabulary differs (airline: "cancelled", sports: "goal"). Entity types differ (news: PER/ORG/LOC, entertainment: WORK_OF_ART titles). Categories differ (products: 4 types, test: 3 mismatched types). Domain-adapted training data is the single highest-impact improvement lever across all tasks.
         </div>
 
-        <h4>Per-Task Limitations</h4>
-        <ul style="font-size:12px; line-height:1.45">
-          <li><strong>Sentiment:</strong> Small test set (n=18 sentences) limits statistical robustness. Neither SVM nor VADER address sarcasm or indirect negation. No ensemble or contextualized approach employed.</li>
-          <li><strong>Topic:</strong> Label space mismatch (train: 4 classes; test: 3 classes with sports unseen) is structural. BERT classification head is not designed for zero-shot generalization to new classes.</li>
-          <li><strong>NER:</strong> Token-level classification ignores sequence constraints (BIO enforcement). No contextual window or sequence model. Unseen entity types (WORK_OF_ART) cannot be predicted. Class imbalance favors majority class (O label).</li>
-          <li><strong>Experimental Design:</strong> Very small test sets (18 and 15 sentences); generalization claims are tentative. No statistical significance testing performed.</li>
-        </ul>
+        <p><strong>Supervised vs Rule-Based Trade-off:</strong> Supervised learning (SVM, BERT) learns domain patterns but requires labeled data and fails on unseen categories. Rule-based (VADER) generalizes zero-shot but misses context and domain nuance. Modern transformers (DistilBERT, BERT) bridge this gap via learned representations, showing modest improvements over traditional methods but still limited by fundamental data constraints.</p>
 
-        <h4>High-Impact Improvements (Priority Order)</h4>
+        <p><strong>Class Imbalance and Sequence Constraints:</strong> Both NER and topic classification suffer from structural constraints. NER's token-level independence prevents BIO constraint enforcement; multi-token entities collapse. Topic's classification head cannot handle zero-shot categories—architecture designed for fixed label sets. Both require architectural changes, not just more data.</p>
+
+        <p><strong>Performance Degradation Pattern:</strong> In-domain: 84-94% accuracy. Out-of-domain: 39-90% accuracy. Magnitude of drop correlates with domain distance. Identical vocabulary (books→books) shows minimal drop. Partial overlap (DVD→movies) shows moderate drop. Complete mismatch (sports) shows catastrophic drop or fails entirely. This suggests semantic distance directly bounds transfer performance.</p>
+
+        <h4>Limitations</h4>
+
+        <p><strong>Sentiment:</strong> Small test set (n=18 sentences) limits statistical robustness. Confidence intervals wide. Neither SVM nor VADER address sarcasm or indirect negation. No ensemble or contextualized approach employed. DistilBERT helps but still reaches only 61% on test domain.</p>
+
+        <p><strong>Topic:</strong> Label space mismatch (train: 4 classes; test: 3 classes with sports unseen) is structural, unfixable by data alone. BERT classification head designed for fixed label sets, not zero-shot. Proxy mapping (DVD→movies) succeeds but is dataset-specific workaround, not general solution.</p>
+
+        <p><strong>NER:</strong> Token-level classification ignores sequence constraints (BIO enforcement). No contextual window or sequence model. Unseen entity types (WORK_OF_ART) cannot be predicted—fundamental limitation. Class imbalance favors majority class (O label dominates). CoNLL-2003 news domain mismatch with entertainment text creates systematic failures on creative works.</p>
+
+        <p><strong>Experimental Design:</strong> Very small test sets (18 and 15 sentences); generalization claims tentative. No statistical significance testing or confidence intervals. Single train-test split without cross-validation. Results should be interpreted as case studies, not definitive benchmarks.</p>
+
+        <h4>Improvements by Priority</h4>
+
         <ol style="font-size:12px; padding-left:16px">
-          <li><strong>In-Domain Data Collection:</strong> Gather or use existing movie/sports/book review datasets (Rotten Tomatoes, ESPN, Goodreads) to retrain all models. This addresses the root domain adaptation problem.</li>
-          <li><strong>Transformer-Based Models:</strong> Replace TF-IDF+SVM with BERT/RoBERTa for sentiment and NER. Contextual embeddings inherently capture linguistic phenomena (sarcasm, indirect negation) better than shallow features.</li>
-          <li><strong>Structured Prediction for NER:</strong> Use BiLSTM-CRF or transformer-CRF architectures that explicitly encode BIO constraints and sequential dependencies.</li>
-          <li><strong>Zero-Shot Classification for Topic:</strong> Adopt NLI-based approaches (BART-MNLI) for topic classification that generalize to unseen classes without retraining.</li>
+          <li><strong>In-Domain Data Collection (Highest Impact):</strong> Gather movie/sports/book reviews from Rotten Tomatoes, ESPN, Goodreads. Retrain all models on target domain. Addresses root cause (domain mismatch) not symptoms.</li>
+          <li><strong>Transformer-Based Architectures:</strong> Replace TF-IDF+SVM with BERT/DistilBERT for sentiment and NER. Contextual embeddings capture sarcasm, indirect negation, semantic relationships better than shallow features. Modest gains expected given domain constraints.</li>
+          <li><strong>Structured Prediction for NER:</strong> Use BiLSTM-CRF or transformer-CRF explicitly encoding BIO constraints and sequential dependencies. Solves multi-token entity problem, enables proper sequence labeling.</li>
+          <li><strong>Zero-Shot Classification for Topic:</strong> Adopt NLI-based approaches (BART-MNLI) framing classification as textual entailment. Generalizes to unseen classes without retraining. Requires different architectural paradigm (entailment vs classification).</li>
         </ol>
       </div>
     </div>
@@ -615,7 +624,10 @@ strong { font-weight: bold; }
 
         <h4>Source Code and Reproducibility</h4>
         <p style="margin-bottom:4px; font-size:12px">
-          <strong>Primary Implementations:</strong> Google Colab notebooks with code for sentiment analysis (TF-IDF + SVM, RoBERTa), topic classification (BERT fine-tuning), and NER (LinearSVC with CoNLL-2003 data). Notebooks contain full reproducible pipelines with hyperparameter documentation.
+          <strong>Repository:</strong> <a href="https://github.com/bgratz1/TextMiningLab1" target="_blank" style="color: var(--lpurple); text-decoration: none; font-weight: bold;">github.com/bgratz1/TextMiningLab1</a>
+        </p>
+        <p style="font-size:12px; margin-bottom:4px">
+          Contains Final_Project_Text_Mining.ipynb (sentiment + topic), Lab4-Assignment-nercV2.ipynb (NER), generate_visuals.py (all figures), visuals/ directory with all 13+ images, and test set prediction outputs.
         </p>
 
         <p style="font-size:12px; margin-bottom:4px">
