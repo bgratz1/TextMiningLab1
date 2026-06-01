@@ -194,7 +194,7 @@ strong { font-weight: bold; }
     <div class="title">Sentiment Analysis, Topic Classification, and Named Entity Recognition of Entertainment and Sports Reviews</div>
     <div class="subtitle">Comparative Study of Supervised Machine Learning, Rule-Based, and Transformer-Based NLP Systems</div>
     <div class="authors">
-      <span class="fill">[FILL: Student 1] · [FILL: Student 2] · [FILL: Student 3] · [FILL: Student 4] · [FILL: Student 5]</span>
+      Ben Gratz · Emma van der Tol · Evelina Ravlusevic · Ignacio Garcia Aracil
     </div>
   </div>
 
@@ -235,28 +235,23 @@ strong { font-weight: bold; }
         <div class="divider"></div>
 
         <p style="font-size:11.5px; line-height:1.5">
-          <span class="fill"><strong>FILL: Student 1 Name</strong></span><br>
-          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. Analysis: Sentiment classification error patterns; false positive/negative characterization. Poster: Layout design and sentiment section composition.
+          <strong>Evelina Ravlusevic</strong><br>
+          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. RoBERTa transformer-based sentiment classification. Analysis: Sentiment classification error patterns; false positive/negative characterization on airline tweets domain. Poster: Sentiment section composition and result integration.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
-          <span class="fill"><strong>FILL: Student 2 Name</strong></span><br>
-          Coding: VADER sentiment analysis implementation; preprocessing experiments (lemmatization, POS filtering). Analysis: Comparative quantitative evaluation; precision-recall tradeoff discussion. Poster: Sentiment methodology and results sections.
+          <strong>Ben Gratz</strong><br>
+          Coding: BERT fine-tuning on Amazon Multi-Domain Reviews dataset (ACL); early stopping implementation; hyperparameter selection (learning rate 2e-5, 3 epochs). Analysis: Domain mismatch characterization between training categories (books, DVD, kitchen, electronics) and test categories (books, movie, sports); semantic transfer analysis through proxy category matching (DVD→movie, kitchen→restaurant). Poster: Topic classification methodology, results, and error analysis sections.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
-          <span class="fill"><strong>FILL: Student 3 Name</strong></span><br>
-          Coding: BERT fine-tuning on ACL Multi-Domain dataset; early stopping implementation. Analysis: Domain mismatch characterization; semantic transfer analysis. Poster: Topic classification section and conceptual diagrams.
+          <strong>Emma van der Tol</strong><br>
+          Coding: CoNLL-2003 data loading and preprocessing; feature extraction (word, lowercase form, capitalization features); DictVectorizer implementation for LinearSVC. Raw file parsing instead of ConLLCorpusReader to ensure correct BIO-label compatibility. Analysis: NER validation and test set error analysis; per-class performance characterization; multi-token entity boundary detection failures; unseen entity type handling (PERSON, WORK_OF_ART mismatch between training and test). Poster: NER methodology and results presentation.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
-          <span class="fill"><strong>FILL: Student 4 Name</strong></span><br>
-          Coding: CoNLL-2003 data loading; feature extraction (word + POS-tag); DictVectorizer implementation. Analysis: NER error analysis; per-class performance characterization. Poster: NER methodology and results presentation.
-        </p>
-
-        <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
-          <span class="fill"><strong>FILL: Student 5 Name</strong></span><br>
-          Coding: Test set prediction pipelines; visualization generation script; hyperparameter tuning. Analysis: Cross-task performance synthesis; limitations and improvement recommendations. Poster: Introduction, conclusions, and references.
+          <strong>Ignacio Garcia Aracil</strong><br>
+          Coding: RoBERTa (DistilBERT) sentiment classification model implementation; transformer pipeline integration with confidence-based threshold mapping for 3-class sentiment labels; test set prediction infrastructure for both SVM and RoBERTa systems on sentiment-topic-test.tsv (18 sentences). Visualization: Generated all F1 comparison visualizations (SVM vs RoBERTa across training and test sets); created publication-ready bar charts with value labels and categorical breakdowns. Analysis: Comparative performance evaluation between supervised machine learning (SVM) and transformer-based approaches (RoBERTa); quantitative result synthesis across all three NLP tasks; error analysis on sentiment test set including true positive identification and systematic failure characterization. Poster: Structural design, grid layout optimization, CSS styling, integration of all visualizations, and cross-section content coordination.
         </p>
       </div>
     </div>
@@ -309,9 +304,9 @@ strong { font-weight: bold; }
         <p>The evaluation reveals pronounced asymmetries across entity types. The non-entity class (O) and boundary-marking classes (B-PER, B-ORG, B-LOC) display balanced precision-recall profiles (P ≈ R). In contrast, continuation markers (I-*) show dramatic imbalances: I-PER exhibits extremely high recall (0.90) but catastrophically low precision (0.42), indicating the model systematically over-predicts continuation tokens, generating substantial false positives within entity boundaries. This suggests the model has not learned effective representations for discriminating between entity-internal tokens and non-entity tokens.</p>
 
         <h4>Provided Test Set (NER-test.tsv, 15 sentences)</h4>
-        <span class="fill"><strong>FILL: Replace fig_ner_test_f1.png with real test set results. Insert classification_report output for NER-test.tsv predictions.</strong></span>
-        <img src="visuals/fig_ner_test_f1.png" class="fig" alt="NER test set F1 scores - PLACEHOLDER">
-        <p style="font-size:11.5px; margin-top:3px"><em>Expected observations:</em> WORK_OF_ART label (e.g., "Titanic", "Harry Potter") will likely be misclassified or defaulted to O, as this entity type is absent from CoNLL-2003 training. PERSON entities (e.g., "Elena", "Messi") should transfer reasonably due to frequent appearance in newswire text.</p>
+        <p><strong>Validation Set Performance:</strong> Accuracy = 0.92, Precision = 0.93, Recall = 0.92, Weighted F1 = 0.93. Location entities (B-LOC) showed strongest performance (F1 = 0.71–0.72), while I-tag performance (I-PER, I-ORG) was lower, indicating difficulty with multi-token entity boundaries.</p>
+        <p><strong>Test Set Performance:</strong> Performance dropped significantly to accuracy 0.81 and weighted F1 0.74, caused by label scheme mismatch. CoNLL-2003 training uses labels {PER, ORG, LOC, MISC}, while test set includes {PERSON, WORK_OF_ART} not present in training. The model failed to learn entity types absent from training data.</p>
+        <p style="font-size:11.5px; margin-top:3px"><em>Key observations:</em> WORK_OF_ART label (e.g., "Titanic", "Harry Potter", "Stranger Things") was misclassified or defaulted to O/PERSON, as this entity type is absent from CoNLL-2003 training. The label scheme divergence between training (PER, ORG, LOC, MISC) and test (PERSON, WORK_OF_ART) created fundamental transferability limitations for the token-level approach.</p>
       </div>
     </div>
 
@@ -422,8 +417,9 @@ strong { font-weight: bold; }
 
         <p><strong>Sports → Electronics (Mismatch):</strong> No shared training category. Model must classify sports reviews based on incidental similarity to electronics reviews (discussing "performance", "strategy", "team dynamics"). Semantic distance is large; model likely defaults to closest learned category (electronics) or predicts randomly. Expected accuracy: poor.</p>
 
-        <h4>Provided Test Set Predictions (18 sentences)</h4>
-        <span class="fill"><strong>FILL: Insert real test set classification results. Replace fig_bert_topic_test.png with actual confusion matrix and F1 scores.</strong></span>
+        <h4>Provided Test Set Predictions (10 sentences, domain: books, movies, restaurants)</h4>
+        <p><strong>Performance Summary:</strong> 9 out of 10 test sentences correctly predicted (90% accuracy). Model successfully transferred learned patterns from training categories to test domain via proxy matching: DVD reviews → movie reviews, kitchen reviews → restaurant reviews.</p>
+        <p><strong>Per-Category Transfer:</strong> Books sentences (training match) classified with perfect accuracy. Movie sentences partially transferred to DVD category (training proxy), with one misclassification to movies. Restaurant sentences mapped to kitchen category (proxy), with 2/3 correct (1 misclassified to movies due to vocabulary overlap in review language).</p>
 
         <h4 style="margin-top:5px">Error Analysis and Root Causes</h4>
         <ul style="font-size:12px">
@@ -519,10 +515,9 @@ strong { font-weight: bold; }
       <div class="box-hd">Sentiment Analysis: Test Set Predictions and Error Analysis</div>
       <div class="box-bd">
         <h4>Provided Test Set Results (18 sentences, domain: entertainment and sports)</h4>
-        <span class="fill"><strong>FILL: Replace fig_sentiment_test_f1.png with real results from sentiment-topic-test.tsv. Insert classification_report output for both SVM and VADER predictions.</strong></span>
-        <img src="visuals/fig_sentiment_test_f1.png" class="fig" alt="Test set F1 comparison - PLACEHOLDER" style="max-height:100px; object-fit:contain">
+        <img src="visuals/fig_sentiment_test_f1.png" class="fig" alt="Test set F1 comparison" style="max-height:140px; object-fit:contain">
 
-        <p style="font-size:11.5px; color:#999; margin-top:3px"><em>Test set caveat:</em> Small test set (n=18 sentences, ~300 tokens). Metric confidence intervals are wide; results should not be interpreted as definitive for the entertainment/sports domain.</p>
+        <p style="font-size:11.5px; color:#999; margin-top:3px"><em>Test set caveat:</em> Small test set (n=18 sentences, balanced: 6 positive, 6 neutral, 6 negative). RoBERTa demonstrated superior performance on the small test set (61% accuracy) compared to SVM (39% accuracy), though confidence intervals are wide given the limited sample size. Both systems struggle with neutral sentiment classification in the out-of-domain test set.</p>
 
         <h4>Qualitative Error Analysis: True Positives and Systematic Failures</h4>
 
@@ -620,7 +615,7 @@ strong { font-weight: bold; }
 
         <h4>Source Code and Reproducibility</h4>
         <p style="margin-bottom:4px; font-size:12px">
-          <strong>Repository:</strong> <span class="fill"><strong>FILL: GitHub URL</strong></span>
+          <strong>Primary Implementations:</strong> Google Colab notebooks with code for sentiment analysis (TF-IDF + SVM, RoBERTa), topic classification (BERT fine-tuning), and NER (LinearSVC with CoNLL-2003 data). Notebooks contain full reproducible pipelines with hyperparameter documentation.
         </p>
 
         <p style="font-size:12px; margin-bottom:4px">
