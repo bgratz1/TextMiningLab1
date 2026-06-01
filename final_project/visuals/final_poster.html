@@ -97,7 +97,7 @@ body {
   border: 1.8px solid var(--border);
   border-radius: 5px;
   overflow: hidden;
-  flex-shrink: 0;
+  flex: 0 1 auto;
 }
 .box.flex-grow { flex: 1; }
 
@@ -231,7 +231,7 @@ strong { font-weight: bold; }
       </div>
     </div>
 
-    <div class="box flex-grow">
+    <div class="box">
       <div class="box-hd green">Division of Labor and Contribution Assessment</div>
       <div class="box-bd">
         <p>All team members contributed substantively to implementation, analysis, and poster preparation.</p>
@@ -311,7 +311,7 @@ strong { font-weight: bold; }
       </div>
     </div>
 
-    <div class="box flex-grow">
+    <div class="box">
       <div class="box-hd gold">NER: Error Analysis and Interpretability</div>
       <div class="box-bd">
         <h4>Systematic Error Patterns</h4>
@@ -399,7 +399,7 @@ strong { font-weight: bold; }
           </div>
           <div style="flex:1">
             <h4>Comparative Methodology: Supervised vs Rule-Based</h4>
-            <p><strong>TF-IDF + LinearSVC:</strong> Applies minimal preprocessing (raw text, whitespace tokenization) before computing weighted term representations. The TF-IDF vectorizer down-weights ubiquitous terms like "the" while emphasizing sentiment-bearing vocabulary, creating sparse vectors fed to LinearSVC. LinearSVC finds a maximum-margin hyperplane separating classes via convex optimization. This approach serves as a strong, interpretable baseline (Joachims, 1998) sensitive to in-domain patterns ("cancelled", "delayed", "crew"), but brittle when domain vocabulary shifts—movies and sports reviews use different terminology, causing out-of-distribution misclassification.</p>
+            <p><strong>TF-IDF + LinearSVC:</strong> Applies minimal preprocessing (raw text, whitespace tokenization) before computing weighted term representations. The TF-IDF vectorizer down-weights ubiquitous terms like "the" while emphasizing sentiment-bearing vocabulary, creating sparse vectors fed to LinearSVC. LinearSVC finds a maximum-margin hyperplane separating classes via convex optimization. This approach serves as a strong, interpretable baseline (Joachims, 1998) sensitive to in-domain patterns ("cancelled", "delayed", "crew"), but brittle when domain vocabulary shifts—movies and restaurant reviews use different terminology, causing out-of-distribution misclassification.</p>
 
             <p><strong>VADER (Valence Aware Dictionary and sEntiment Reasoner):</strong> Operates directly on raw text with no preprocessing. Encodes ~7,500 sentiment words with hand-annotated polarity scores (Hutto & Gilbert, 2014), applying explicit linguistic rules: negation ("not good" reverses polarity), intensification (punctuation/caps amplify), contrastive discourse ("but" re-weights toward the post-clause), and emoticons. Aggregates rule-adjusted values into a compound score ∈ [−1, 1], then thresholds to classify (compound < −0.05 → negative, −0.05 ≤ compound ≤ 0.05 → neutral, compound > 0.05 → positive). Rule-based systems encode linguistic knowledge explicitly and generalize zero-shot across domains, making VADER robust and interpretable. However, they lack data-driven domain-specific learning and struggle with sarcasm, metaphor, and indirect sentiment.</p>
           </div>
@@ -442,7 +442,7 @@ strong { font-weight: bold; }
       </div>
     </div>
 
-    <div class="box flex-grow">
+    <div class="box">
       <div class="box-hd">Sentiment Analysis: Test Set Predictions and Domain Transfer</div>
       <div class="box-bd">
         <h4>Dataset</h4>
@@ -494,7 +494,7 @@ strong { font-weight: bold; }
       </div>
     </div>
 
-    <div class="box flex-grow">
+    <div class="box">
       <div class="box-hd">References and Computational Resources</div>
       <div class="box-bd">
         <p style="margin-bottom:4px; font-size:12px">
