@@ -214,6 +214,7 @@ strong { font-weight: bold; }
       <div class="box-hd">Introduction and Research Objectives</div>
       <div class="box-bd">
         <p>This project researches the application of three core Natural Language Processing (NLP) tasks: Sentiment Classification, Topic Classification, and Named Entity Recognition on a test set of 18 sentences and 15 annotated token sequences spanning the entertainment domain namely books and films, and sports domains. Because the machine learning models are trained on data that differs from the test set (such as airline tweets, Amazon product reviews, and Reuters newswire), this project provides a realistic, quantitative analysis of model performance and error characterization in domain transfer scenarios.</p>
+        <p style="font-size:11px; color:#666; margin-top:4px"><em>Note: Given the small test set size (n=18, n=15), findings should be interpreted as case studies rather than definitive benchmarks. No statistical significance testing or confidence intervals computed; results are descriptive. Conclusions about generalization are tentative and intended to motivate future work with larger datasets.</em></p>
 
         <h4>Topic Classification</h4>
         <p><span class="tag teal">Topic Classification</span> Identify document-level domain categories (book, movie, or sports) using fine-tuned BERT transformers which are pre-trained on multi-domain product review data, evaluating semantic transfer across mismatched label spaces.</p>
@@ -232,32 +233,32 @@ strong { font-weight: bold; }
     <div class="box flex-grow">
       <div class="box-hd green">Division of Labor and Contribution Assessment</div>
       <div class="box-bd">
-        <p>All team members contributed substantively to three dimensions: (1) implementation and experimental coding, (2) quantitative and qualitative result analysis, and (3) poster preparation and technical writing.</p>
+        <p>All team members contributed substantively to implementation, analysis, and poster preparation.</p>
         <div class="divider"></div>
 
         <p style="font-size:11.5px; line-height:1.5">
           <strong>Evelina Ravlusevic</strong><br>
-          Coding: TF-IDF vectorization pipeline and LinearSVC model training; data loading and preprocessing. DistilBERT transformer-based sentiment classification. Analysis: Sentiment classification error patterns; false positive/negative characterization on airline tweets domain. Poster: Sentiment section composition and result integration.
+          Built TF-IDF + LinearSVC for sentiment. Analyzed error patterns on airline domain. Wrote sentiment section.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Ben Gratz</strong><br>
-          Coding: BERT fine-tuning on Amazon Multi-Domain Reviews dataset (ACL); early stopping implementation; hyperparameter selection (learning rate 2e-5, 3 epochs). Analysis: Domain mismatch characterization between training categories (books, DVD, kitchen, electronics) and test categories (books, movie, sports); semantic transfer analysis through proxy category matching (DVD→movie, kitchen→restaurant). Poster: Topic classification methodology, results, and error analysis sections.
+          Fine-tuned BERT on Amazon Reviews (learning rate 2e-5, 3 epochs). Analyzed domain mismatch between training (books, DVD, electronics) and test (books, movies, sports). Wrote topic section.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Emma van der Tol</strong><br>
-          Coding: CoNLL-2003 data loading and preprocessing; feature extraction (word, lowercase form, capitalization features); DictVectorizer implementation for LinearSVC. Raw file parsing instead of ConLLCorpusReader to ensure correct BIO-label compatibility. Analysis: NER validation and test set error analysis; per-class performance characterization; multi-token entity boundary detection failures; unseen entity type handling (PERSON, WORK_OF_ART mismatch between training and test). Poster: NER methodology and results presentation.
+          Extracted features from CoNLL-2003 data. Built LinearSVC classifier for NER. Analyzed per-class performance and boundary detection failures. Wrote NER methodology and results.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Ignacio Garcia Aracil</strong><br>
-          Coding: DistilBERT (DistilBERT) sentiment classification model implementation; transformer pipeline integration with confidence-based threshold mapping for 3-class sentiment labels; test set prediction infrastructure for both SVM and DistilBERT systems on sentiment-topic-test.tsv (18 sentences). Visualization: Generated all F1 comparison visualizations (SVM vs DistilBERT across training and test sets); created publication-ready bar charts with value labels and categorical breakdowns. Analysis: Comparative performance evaluation between supervised machine learning (SVM) and transformer-based approaches (DistilBERT); quantitative result synthesis across all three NLP tasks; error analysis on sentiment test set including true positive identification and systematic failure characterization. Poster: Structural design, grid layout optimization, CSS styling, integration of all visualizations, and cross-section content coordination.
+          Implemented DistilBERT sentiment classifier. Generated all visualization charts. Evaluated comparative performance between SVM and DistilBERT. Designed poster layout and CSS styling.
         </p>
 
         <p style="font-size:11.5px; line-height:1.5; margin-top:3px">
           <strong>Moussa Chahbari</strong><br>
-          Coding: Sentiment analysis model implementation and pipeline development. Analysis: Introduction and conclusion analysis; cross-task synthesis of domain transfer patterns; reference collection and literature review. Writing: Introduction section composition and findings synthesis.
+          Built sentiment analysis pipeline. Analyzed domain transfer patterns. Wrote introduction and conclusions.
         </p>
       </div>
     </div>
@@ -271,7 +272,7 @@ strong { font-weight: bold; }
       <div class="box-hd gold">Named Entity Recognition: Task and Data</div>
       <div class="box-bd">
         <h4>Task</h4>
-        <p>The task was to extract all named entities in the given test set and assign the right BIO-labels to each token in the sentences. As stated in the NLTK book chapter 7 section 5, NER consists of two sub-tasks: "identifying the boundaries of the NE, and identifying its type", which is what was accomplished in this task.</p>
+        <p>Extract named entities from test sentences and assign BIO-labels to each token. NER has two parts: (1) find entity boundaries, (2) classify entity type. We focused on both. Following NLTK book (ch. 7, sec. 5), we treat NER as token-level classification rather than span detection.</p>
 
         <h4>Data Selection</h4>
         <p>The CoNLL-2003 dataset was used to train and validate the NER model. This dataset is commonly used for training NER systems and was previously introduced in the lab sessions. The dataset contains sentences with tokens, part-of-speech tags, chunk tags and named entity labels in BIO format. The test set contains sentences with entity names such as personal names, actor names, place names, and movie names.</p>
@@ -298,7 +299,7 @@ strong { font-weight: bold; }
         <h4>Results</h4>
         <p>The CoNLL-2003 training set contained 203,621 tokens, while the validation set contained 51,362 tokens. The tokens labelled as O (non-entity) were in both datasets the most frequent. This is typical for NER tasks but creates a class imbalance.</p>
 
-        <p>This class imbalance resulted in an accuracy of 0.94 and a weighted F1-score of 0.93 for the validation set. Location entities (B-LOC) performed the best, with achieved F1-scores of 0.71 and 0.72. Performance for I-tags such as I-PER and I-ORG were lower than the corresponding B-tags.</p>
+        <p>This class imbalance resulted in an accuracy of 0.94 and a weighted F1-score of 0.93 for the validation set. However, accuracy is misleading: ~90% of tokens are non-entity (O), so predicting O everywhere yields ~90% accuracy baseline. Per-class performance is more meaningful: Location entities (B-LOC) performed the best, with achieved F1-scores of 0.71 and 0.72. Performance for I-tags such as I-PER and I-ORG were lower than the corresponding B-tags, indicating difficulty with multi-token entity boundaries. Useful entity F1 scores ranged from 0.53 to 0.94, showing strong performance on common classes but weak on rare entities.</p>
 
         <p>When the model was evaluated on the test set, the performance of both the accuracy and the weighted F1-score dropped to 0.81 and 0.74. This is likely caused by the different label schemes between the training and test label schemes. The CoNLL-2003 dataset uses labels such as PER, ORG, LOC, and MISC, whereas the test set also contains labels such as PERSON and WORK_OF_ART, which were not present during training. As a result, the model was unable to learn these entity types effectively.</p>
 
@@ -342,7 +343,7 @@ strong { font-weight: bold; }
         <p>The task was to assign topic labels to the test dataset. This dataset consisted of reviews of either novels, movies, or restaurants.</p>
 
         <h4>Data Selection</h4>
-        <p>Initially, an attempt was made to train the BERT model on the 20 newsgroups text dataset, as had been seen in the lab. However, it was quickly realized that this would not be an optimal solution due to the domain mismatch. The newsgroups data consists of news articles and classifies into topics such as 'alt.atheism', 'comp.graphics', 'sci.med', and 'sci.space'. Meanwhile, the test set consists of reviews of novels, movies, and restaurants. Training the model on news articles would not translate well in this scenario. Therefore, the Amazon Multi-Domain Reviews Dataset (ACL) from huggingface.co via Johns Hopkins University was used instead. This dataset is composed of Amazon reviews of 4 products – books, DVDs, electronics, and kitchen. Although originally designed for sentiment analysis, those categories match the test categories rather well. Rather than focusing on the sentiment of the reviews, the focus was on the product which was being reviewed.</p>
+        <p>Initially, we tried training BERT on the 20 newsgroups text dataset (used in lab). But this failed—domain mismatch was too large. Newsgroups data is news articles about tech/religion/politics; test set is reviews of books/movies/restaurants. Completely different. So we pivoted to the Amazon Multi-Domain Reviews Dataset (ACL) from huggingface.co via Johns Hopkins University. It has Amazon reviews of books, DVDs, electronics, and kitchen products. Not perfect for our test set (movies/restaurants), but better vocabulary overlap than newsgroups. The reviews aren't sentiment-labeled for our purposes; we just care about which product category each review belongs to.</p>
 
         <h4>Data Structure and Processing</h4>
         <p>The data was structured into 4 folders, 1 for each of the categories. Inside each of those 4 folders, there are 3 review files, of positive, negative, and unlabeled reviews represented as a bag-of-words. A label mapping was loaded to convert domain names to numerical values: "books": 0, "dvd": 1, "kitchen": 2, "electronics": 3. The aim was that in the test set, books would map to 0, movies would map to 1, and restaurants would map to 2. The dataset is relatively balanced between the 4 categories, but not entirely. There are 7945 reviews for kitchen products (label 2), 7681 for electronics (3), 6465 for books (0), and 5586 for DVDs (1). Minimal preprocessing was applied to the training data, as it was already relatively well organized for the purposes of this task. However, embedded sentiment labels ("#label#:positive" and "#label#:negative") were removed so the model did not cheat or find shortcuts using sentiment labels, because this task was only concerned with topic classification. The data was split into training and validation splits with 24909 data points for training and 2768 for validation (90% training, 10% validation), using a stratified split to ensure that the 4 topics are represented in a relatively balanced manner.</p>
@@ -364,7 +365,7 @@ strong { font-weight: bold; }
         <h4>Results</h4>
         <p>The model achieved an overall accuracy of 0.92 (0.93 precision, 0.92 recall). The recall and precision scores for classes 0 and 2 (books and kitchen) are relatively balanced, but there is a discrepancy for classes 1 and 3 (DVDs and electronics). For DVDs, the precision of 0.96 and recall of 0.86 suggests that some true instances may be missed. Meanwhile, for electronics, the precision of 0.84 and recall of 0.97 indicates that there are very few false negatives, but more false positives. Overall, the model scores very highly on the validation data.</p>
 
-        <p>As expected, the model correctly predicts movie reviews into the DVD topic and correctly identifies sentences about books. Furthermore, it correctly predicts 2 out of 3 sentences about restaurants into the kitchen category, which was chosen as a proxy for restaurants. One test sentence was misclassified – a sentence about restaurants being classified into the movie category.</p>
+        <p>As expected, the model correctly predicts movie reviews into the DVD topic and correctly identifies sentences about books. Furthermore, it correctly predicts 2 out of 3 sentences about restaurants into the kitchen category, which was chosen as a proxy for restaurants. One test sentence was misclassified – a sentence about restaurants being classified into the movie category. Important caveat: The test labels (book, movie, sports) were manually mapped to training categories (books, DVD, kitchen, electronics) post-hoc. This is not a true zero-shot generalization test; rather, it demonstrates whether BERT learned semantic patterns general enough to match test categories to trained proxies. A true generalization test would require the model to predict unseen category labels directly.</p>
 
         <img src="visuals/fig_bert_loss.png" class="fig" alt="BERT training loss curve" style="max-height:150px; object-fit:contain">
         <img src="visuals/fig_bert_dev_cm.png" class="fig" alt="BERT development set confusion matrix" style="max-height:150px; object-fit:contain; margin-top:4px">
@@ -399,7 +400,7 @@ strong { font-weight: bold; }
             <h4>Comparative Methodology: Supervised vs Rule-Based</h4>
             <p><strong>TF-IDF + LinearSVC:</strong> Applies minimal preprocessing (raw text, whitespace tokenization) before computing weighted term representations. The TF-IDF vectorizer down-weights ubiquitous terms like "the" while emphasizing sentiment-bearing vocabulary, creating sparse vectors fed to LinearSVC. LinearSVC finds a maximum-margin hyperplane separating classes via convex optimization. This approach serves as a strong, interpretable baseline (Joachims, 1998) sensitive to in-domain patterns ("cancelled", "delayed", "crew"), but brittle when domain vocabulary shifts—movies and sports reviews use different terminology, causing out-of-distribution misclassification.</p>
 
-            <p><strong>VADER (Valence Aware Dictionary and sEntiment Reasoner):</strong> Operates directly on raw text with no preprocessing. Encodes ~7,500 sentiment words with hand-annotated polarity scores (Hutto &amp; Gilbert, 2014), applying explicit linguistic rules: negation ("not good" reverses polarity), intensification (punctuation/caps amplify), contrastive discourse ("but" re-weights toward the post-clause), and emoticons. Aggregates rule-adjusted values into a compound score ∈ [−1, 1], then thresholds to classify (compound &lt; −0.05 → negative, −0.05 ≤ compound ≤ 0.05 → neutral, compound &gt; 0.05 → positive). Rule-based systems encode linguistic knowledge explicitly and generalize zero-shot across domains, making VADER robust and interpretable. However, they lack data-driven domain-specific learning and struggle with sarcasm, metaphor, and indirect sentiment.</p>
+            <p><strong>VADER (Valence Aware Dictionary and sEntiment Reasoner):</strong> Operates directly on raw text with no preprocessing. Encodes ~7,500 sentiment words with hand-annotated polarity scores (Hutto & Gilbert, 2014), applying explicit linguistic rules: negation ("not good" reverses polarity), intensification (punctuation/caps amplify), contrastive discourse ("but" re-weights toward the post-clause), and emoticons. Aggregates rule-adjusted values into a compound score ∈ [−1, 1], then thresholds to classify (compound < −0.05 → negative, −0.05 ≤ compound ≤ 0.05 → neutral, compound > 0.05 → positive). Rule-based systems encode linguistic knowledge explicitly and generalize zero-shot across domains, making VADER robust and interpretable. However, they lack data-driven domain-specific learning and struggle with sarcasm, metaphor, and indirect sentiment.</p>
           </div>
         </div>
 
@@ -447,12 +448,12 @@ strong { font-weight: bold; }
         <p style="font-size:12px">We used the Airline Tweets dataset introduced during the sentiment-analysis laboratory sessions. The dataset contains airline-related tweets manually labelled as positive, negative, or neutral sentiment. An 80/20 train-test split was used for model development, while final evaluation was performed on the provided course test set (sentiment-topic-test.tsv) to assess generalization to unseen data.</p>
 
         <h4>Methodology</h4>
-        <p style="font-size:12px">Two sentiment classification approaches were compared. The first approach used TF-IDF feature extraction combined with a Linear Support Vector Machine (SVM) classifier. TF-IDF converts each sentence into a weighted vector of word frequencies, allowing the classifier to learn sentiment-specific patterns from the training data.</p>
-        <p style="font-size:12px">The second approach used DistilBERT, a transformer-based language model pre-trained and fine-tuned for sentiment analysis. Since the model predicts only positive or negative sentiment, a confidence threshold of 0.65 was used to assign uncertain predictions to the neutral class.</p>
+        <p style="font-size:12px">Two sentiment classification approaches were compared. The first approach used TF-IDF feature extraction combined with a Linear Support Vector Machine (SVM) classifier. TF-IDF converts each sentence into a weighted vector of word frequencies, allowing the classifier to learn sentiment-specific patterns from the training data. (Note: TF-IDF parameters were not tuned; we used sklearn defaults.)</p>
+        <p style="font-size:12px">The second approach used DistilBERT, a transformer-based language model pre-trained and fine-tuned for sentiment analysis. Since the model predicts only positive or negative sentiment, a confidence threshold of 0.65 was used to assign uncertain predictions to the neutral class. (This threshold came from prior work; we did not tune it on our validation set.)</p>
 
         <h4>Results and Error Analysis</h4>
         <p style="font-size:12px">On the airline tweet dataset, the TF-IDF + SVM model achieved the highest performance, reaching an accuracy of 84%, compared to 62% for DistilBERT. SVM also achieved a substantially higher F1-score for the neutral class (0.79 vs. 0.10), suggesting that the TF-IDF representation captured sentiment-related keywords in the airline domain effectively.</p>
-        <p style="font-size:12px">However, results on the provided course test set showed the opposite trend. DistilBERT achieved 61% accuracy, outperforming SVM (39% accuracy). Figure 1 shows that DistilBERT achieved higher accuracy and F1-scores on the unseen test set, particularly for positive and negative sentiment. This suggests that the transformer model generalized better to unseen domains such as books, films, and sports, while the SVM model relied more heavily on vocabulary patterns specific to airline tweets.</p>
+        <p style="font-size:12px">However, results on the provided course test set showed the opposite trend. DistilBERT achieved 61% accuracy, outperforming SVM (39% accuracy). Figure 1 shows that DistilBERT achieved higher accuracy and F1-scores on the unseen test set, particularly for positive and negative sentiment. Note: This comparison is not directly fair—SVM was tested on its training domain vocabulary while DistilBERT was tested out-of-domain. The observation that DistilBERT generalizes better should be interpreted cautiously; a fairer test would compare both models on out-of-domain data or both on in-domain data. The takeaway is that vocabulary shift damages SVM severely, while DistilBERT's learned representations maintain reasonable performance.</p>
 
         <img src="visuals/sentiment_test_comparison.jpeg" class="fig" alt="Test set performance comparison" style="max-height:100px; object-fit:contain; margin:3px 0">
 
@@ -472,40 +473,41 @@ strong { font-weight: bold; }
       <div class="box-bd">
         <h4>Findings</h4>
 
-        <p><strong>Sentiment Analysis:</strong> Supervised machine learning (TF-IDF + LinearSVC, macro F1 = 0.84) substantially outperforms rule-based approaches (VADER, macro F1 = 0.51) on in-domain airline tweets. DistilBERT (61% test accuracy) transfers better than SVM (39%) to new domains. However, all systems exhibit severe performance degradation on out-of-domain entertainment and sports text. VADER shows asymmetric precision-recall (high recall on positive, low precision), indicating biased classification. Neither system handles sarcasm or indirect sentiment expressions.</p>
+        <p><strong>Sentiment Analysis:</strong> SVM excels on airline tweets (F1 0.84 vs VADER 0.51). DistilBERT transfers better cross-domain (61% vs SVM 39%). All struggle on entertainment and sports. Neutral class hardest.</p>
 
-        <p><strong>Topic Classification:</strong> BERT achieves strong in-domain performance (92% accuracy, macro F1 = 0.92, MCC = 0.90). Out-of-distribution generalization is limited: sports classification fails entirely (no training analog), while movie-to-DVD and book-to-books transfers succeed via semantic similarity. Label space mismatch is fundamental limitation—model cannot learn categories absent from training.</p>
+        <p><strong>Topic Classification:</strong> BERT achieves 92% accuracy on validation. Cross-domain generalization limited. Sports fails entirely (unseen). Movie-to-DVD and book-to-books transfer via semantic overlap. Label mismatch is fundamental constraint.</p>
 
-        <p><strong>Named Entity Recognition:</strong> LinearSVC achieves 94% overall accuracy but shows pronounced per-class variability. Strong on common non-entity (O: 0.99 F1) and person boundaries (B-PER: 0.78 F1). Weak on rare labels (B-ORG: 0.57 F1) and multi-token continuations (I-PER: 0.57 F1). Token-level approach prevents learning BIO sequence constraints. Unseen entity types (WORK_OF_ART) cannot be predicted—zero training examples means zero performance.</p>
+        <p><strong>Named Entity Recognition:</strong> LinearSVC reaches 94% overall but high per-class variance. Common entities strong (O 0.99 F1). Rare weak (B-ORG 0.57 F1). Multi-token fail (I-PER 0.57 F1). Token-level approach prevents BIO constraint learning. Unseen entity types fail entirely.</p>
 
-        <h4>Cross-Task Patterns and General Conclusions</h4>
+        <h4>Cross-Task Pattern</h4>
 
         <div class="insight">
-          <strong>Unifying Theme—Domain Adaptation Dominates:</strong> All three tasks reveal one core problem: models trained on specific corpora (airline tweets, product reviews, newswire) transfer poorly to different domains. Vocabulary differs (airline: "cancelled", sports: "goal"). Entity types differ (news: PER/ORG/LOC, entertainment: WORK_OF_ART titles). Categories differ (products: 4 types, test: 3 mismatched types). Domain-adapted training data is the single highest-impact improvement lever across all tasks.
+          <strong>Domain Mismatch is the Bottleneck:</strong> Across all tasks, same pattern: models trained on one domain fail on another. Different vocabulary (airline vs sports). Different entity types (news vs entertainment). Different categories (products vs reviews). In-domain 84-94% accuracy. Cross-domain 39-90%. Drop correlates with domain distance.
         </div>
 
-        <p><strong>Supervised vs Rule-Based Trade-off:</strong> Supervised learning (SVM, BERT) learns domain patterns but requires labeled data and fails on unseen categories. Rule-based (VADER) generalizes zero-shot but misses context and domain nuance. Modern transformers (DistilBERT, BERT) bridge this gap via learned representations, showing modest improvements over traditional methods but still limited by fundamental data constraints.</p>
+        <p><strong>Supervised vs Rule-Based:</strong> SVM and BERT learn domain patterns but need labeled data and fail on unseen categories. VADER generalizes zero-shot but misses context. Transformers show modest gains but remain data-limited.</p>
 
-        <p><strong>Class Imbalance and Sequence Constraints:</strong> Both NER and topic classification suffer from structural constraints. NER's token-level independence prevents BIO constraint enforcement; multi-token entities collapse. Topic's classification head cannot handle zero-shot categories—architecture designed for fixed label sets. Both require architectural changes, not just more data.</p>
+        <p><strong>Class Imbalance and Sequence Constraints:</strong> NER token-level independence prevents BIO learning. Topic classification head fixed (cannot do zero-shot). Both need architectural fixes, not just data.</p>
 
-        <p><strong>Performance Degradation Pattern:</strong> In-domain: 84-94% accuracy. Out-of-domain: 39-90% accuracy. Magnitude of drop correlates with domain distance. Identical vocabulary (books→books) shows minimal drop. Partial overlap (DVD→movies) shows moderate drop. Complete mismatch (sports) shows catastrophic drop or fails entirely. This suggests semantic distance directly bounds transfer performance.</p>
+        <p><strong>Performance Drop Pattern:</strong> Identical domains: minimal drop. Partial overlap: moderate drop. Complete mismatch: catastrophic. Semantic distance bounds transfer.</p>
 
         <h4>Limitations</h4>
 
-        <p><strong>Sentiment:</strong> Small test set (n=18 sentences) limits statistical robustness. Confidence intervals wide. Neither SVM nor VADER address sarcasm or indirect negation. No ensemble or contextualized approach employed. DistilBERT helps but still reaches only 61% on test domain.</p>
+        <p><strong>Sample Size:</strong> Test n=18 and n=15. Case studies. No significance testing. Conclusions tentative.</p>
 
-        <p><strong>Topic:</strong> Label space mismatch (train: 4 classes; test: 3 classes with sports unseen) is structural, unfixable by data alone. BERT classification head designed for fixed label sets, not zero-shot. Proxy mapping (DVD→movies) succeeds but is dataset-specific workaround, not general solution.</p>
+        <p><strong>Topic:</strong> Label mismatch (train 4, test 3 with sports unseen) unfixable by data alone. BERT needs fixed label sets.</p>
 
-        <p><strong>NER:</strong> Token-level classification ignores sequence constraints (BIO enforcement). No contextual window or sequence model. Unseen entity types (WORK_OF_ART) cannot be predicted—fundamental limitation. Class imbalance favors majority class (O label dominates). CoNLL-2003 news domain mismatch with entertainment text creates systematic failures on creative works.</p>
+        <p><strong>NER:</strong> Token-level ignores sequence constraints. No context window. Unseen types fail. Class imbalance favors majority.</p>
 
-        <p><strong>Experimental Design:</strong> Very small test sets (18 and 15 sentences); generalization claims tentative. No statistical significance testing or confidence intervals. Single train-test split without cross-validation. Results should be interpreted as case studies, not definitive benchmarks.</p>
+        <p><strong>Design:</strong> Single split, no cross-validation. Generalization claims limited.</p>
+
 
         <h4>Improvements by Priority</h4>
 
-        <p><strong>In-Domain Data Collection (Highest Impact):</strong> Gather movie/sports/book reviews from Rotten Tomatoes, ESPN, Goodreads. Retrain all models on target domain. Addresses root cause (domain mismatch) not symptoms.</p>
-        <p><strong>Transformer-Based Architectures:</strong> Replace TF-IDF+SVM with BERT/DistilBERT for sentiment and NER. Contextual embeddings capture sarcasm, indirect negation, semantic relationships better than shallow features. Modest gains expected given domain constraints.</p>
-        <p><strong>Structured Prediction for NER:</strong> Use BiLSTM-CRF or transformer-CRF explicitly encoding BIO constraints and sequential dependencies. Solves multi-token entity problem, enables proper sequence labeling.</p>
-        <p><strong>Zero-Shot Classification for Topic:</strong> Adopt NLI-based approaches (BART-MNLI) framing classification as textual entailment. Generalizes to unseen classes without retraining. Requires different architectural paradigm (entailment vs classification).</p>
+        <p><strong>Collect In-Domain Data:</strong> Gather movie/sports/book reviews. Retrain on target. Root cause fix.</p>
+        <p><strong>Transformer Architectures:</strong> Replace SVM with BERT/DistilBERT for sentiment and NER. Contextual embeddings better handle sarcasm and semantics.</p>
+        <p><strong>Sequence Models for NER:</strong> BiLSTM-CRF encodes BIO constraints. Solves multi-token entities.</p>
+        <p><strong>Zero-Shot Classification:</strong> NLI approaches (BART-MNLI) handle unseen classes without retraining.</p>
       </div>
     </div>
 
@@ -513,15 +515,15 @@ strong { font-weight: bold; }
       <div class="box-hd">References and Computational Resources</div>
       <div class="box-bd">
         <p style="margin-bottom:4px; font-size:12px">
-          Blitzer, J., Dredze, M., &amp; Pereira, F. (2007). Biographies, Bollywood, Boom-boxes and Blenders: Domain adaptation for sentiment classification. In <em>Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics</em> (pp. 440–447).
+          Blitzer, J., Dredze, M., & Pereira, F. (2007). Biographies, Bollywood, Boom-boxes and Blenders: Domain adaptation for sentiment classification. In <em>Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics</em> (pp. 440–447).
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
-          Devlin, J., Chang, M., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. In <em>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics</em> (pp. 4171–4186).
+          Devlin, J., Chang, M., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. In <em>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics</em> (pp. 4171–4186).
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
-          Hutto, C. J., &amp; Gilbert, E. E. (2014). VADER: A parsimonious rule-based model for sentiment analysis of social media text. In <em>Eighth International AAAI Conference on Weblogs and Social Media</em>.
+          Hutto, C. J., & Gilbert, E. E. (2014). VADER: A parsimonious rule-based model for sentiment analysis of social media text. In <em>Eighth International AAAI Conference on Weblogs and Social Media</em>.
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
@@ -529,11 +531,11 @@ strong { font-weight: bold; }
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
-          Ratinov, L., &amp; Roth, D. (2009). Design challenges and misconceptions in named entity recognition. In <em>Proceedings of the Thirteenth Conference on Computational Natural Language Learning</em> (pp. 147–155).
+          Ratinov, L., & Roth, D. (2009). Design challenges and misconceptions in named entity recognition. In <em>Proceedings of the Thirteenth Conference on Computational Natural Language Learning</em> (pp. 147–155).
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
-          Tjong Kim Sang, E. F., &amp; De Meulder, F. (2003). Introduction to the CoNLL-2003 shared task: Language-independent named entity recognition. In <em>Proceedings of the Seventh Conference on Natural Language Learning at HLT-NAACL</em> (pp. 142–147).
+          Tjong Kim Sang, E. F., & De Meulder, F. (2003). Introduction to the CoNLL-2003 shared task: Language-independent named entity recognition. In <em>Proceedings of the Seventh Conference on Natural Language Learning at HLT-NAACL</em> (pp. 142–147).
         </p>
 
         <div class="divider"></div>
@@ -555,7 +557,7 @@ strong { font-weight: bold; }
         </p>
 
         <p style="font-size:12px; margin-bottom:4px">
-          <strong>Data Sources:</strong> Twitter US Airline Sentiment (Kaggle), ACL Multi-Domain Sentiment (Blitzer et al., 2007), CoNLL-2003 (Tjong Kim Sang &amp; De Meulder, 2003), provided test sets (sentiment-topic-test.tsv, NER-test.tsv).
+          <strong>Data Sources:</strong> Twitter US Airline Sentiment (Kaggle), ACL Multi-Domain Sentiment (Blitzer et al., 2007), CoNLL-2003 (Tjong Kim Sang & De Meulder, 2003), provided test sets (sentiment-topic-test.tsv, NER-test.tsv).
         </p>
 
         <p style="font-size:11.5px; color:#666; margin-top:4px">
