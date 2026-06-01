@@ -231,7 +231,7 @@ train_boxes = [("books",  0.8, 3.2, TEAL),
 # Test labels
 test_boxes = [("book",       9.2, 3.2, TEAL),
               ("movie",      9.2, 2.2, PURPLE),
-              ("sports",     9.2, 1.2, "#c0392b"),
+              ("restaurant", 9.2, 1.2, LPURPLE),
               ]
 
 ax.text(1.4, 3.9, "TRAIN LABELS", ha="center", fontsize=9, fontweight="bold", color=PURPLE)
@@ -240,8 +240,8 @@ ax.text(8.6, 3.9, "TEST LABELS",  ha="center", fontsize=9, fontweight="bold", co
 arrows = {
     "books":       ("book",        "✓ Good",       GREEN,  3.2),
     "dvd":         ("movie",       "≈ Partial",    GOLD,   2.2),
-    "kitchen":     (None,          None,           None,   1.2),
-    "electronics": ("sports",      "✗ No overlap", RED,    0.2),
+    "kitchen":     ("restaurant",  "≈ Partial",    GOLD,   1.2),
+    "electronics": (None,          None,           None,   0.2),
 }
 
 for (lbl, x, y, col) in train_boxes:
@@ -260,7 +260,7 @@ for (lbl, x, y, col) in test_boxes:
 arrow_pairs = [
     (1.55, 3.2, 8.4, 3.2, GREEN,  "✓ Direct match"),
     (1.55, 2.2, 8.4, 2.2, GOLD,   "≈ Partial overlap"),
-    (1.55, 0.2, 8.4, 1.2, RED,    "✗ No overlap → mismatch"),
+    (1.55, 1.2, 8.4, 1.2, GOLD,   "≈ Partial overlap"),
 ]
 for x1, y1, x2, y2, col, lbl in arrow_pairs:
     ax.annotate("", xy=(x2, y2), xytext=(x1, y1),

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Text Mining Final Project: Sentiment, Topic, and NER Analysis</title>
 <style>
-@page { size: A0 landscape; margin: 0; }
+@page { size: A0 landscape; margin: 0 !important; padding: 0 !important; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -34,33 +34,34 @@ body {
   height:  841mm;
   overflow: hidden;
   margin: 0;
+  padding: 0;
 }
 
 .header {
   background: linear-gradient(135deg, var(--purple) 0%, var(--lpurple) 70%, var(--mpurple) 100%);
   color: white;
-  padding: 8mm 12mm 6mm;
+  padding: 6mm 8mm 4mm;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .header-center { text-align: center; flex: 1; }
 .header .title {
-  font-size: 44px;
+  font-size: 40px;
   font-weight: bold;
   letter-spacing: -0.5px;
-  line-height: 1.08;
+  line-height: 1.05;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .header .subtitle {
-  font-size: 18px;
-  margin-top: 4px;
+  font-size: 16px;
+  margin-top: 2px;
   opacity: 0.88;
   font-weight: normal;
 }
 .header .authors {
-  font-size: 14px;
-  margin-top: 3px;
+  font-size: 11px;
+  margin-top: 2px;
   opacity: 0.82;
   font-style: italic;
 }
@@ -68,20 +69,20 @@ body {
   background: rgba(255,255,255,0.15);
   border: 2px solid rgba(255,255,255,0.4);
   border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
   text-align: center;
-  min-width: 120px;
+  min-width: 110px;
   color: white;
 }
-.header-badge b { display: block; font-size: 20px; margin-bottom: 2px; }
+.header-badge b { display: block; font-size: 18px; margin-bottom: 1px; }
 
 .grid {
   display: grid;
   grid-template-columns: 180mm 200mm 240mm 225mm 160mm;
-  gap: 4mm;
-  padding: 4mm 5mm;
-  height: calc(841mm - 50mm);
+  gap: 3mm;
+  padding: 3mm 4mm;
+  height: calc(841mm - 45mm);
 }
 
 .col {
@@ -103,7 +104,7 @@ body {
 .box-hd {
   background: linear-gradient(90deg, var(--purple), var(--lpurple));
   color: white;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   padding: 5px 10px;
   letter-spacing: 0.2px;
@@ -119,7 +120,7 @@ body {
 }
 .box-bd p   { margin-bottom: 5px; }
 .box-bd ul  { padding-left: 16px; margin-bottom: 4px; }
-.box-bd li  { margin-bottom: 2px; }
+.box-bd li  { margin-bottom: 1px; }
 
 h4 {
   color: var(--purple);
@@ -154,7 +155,7 @@ tr:nth-child(even) td { background: var(--bg); }
   background: #ede9fe;
   border-left: 3px solid var(--lpurple);
   padding: 5px 8px;
-  font-size: 12px;
+  font-size: 11px;
   margin: 4px 0;
   border-radius: 0 3px 3px 0;
   line-height: 1.45;
@@ -217,7 +218,7 @@ strong { font-weight: bold; }
         <p style="font-size:11px; color:#666; margin-top:4px"><em>Note: Given the small test set size (n=18, n=15), findings should be interpreted as case studies rather than definitive benchmarks. No statistical significance testing or confidence intervals computed; results are descriptive. Conclusions about generalization are tentative and intended to motivate future work with larger datasets.</em></p>
 
         <h4>Topic Classification</h4>
-        <p><span class="tag teal">Topic Classification</span> Identify document-level domain categories (book, movie, or sports) using fine-tuned BERT transformers which are pre-trained on multi-domain product review data, evaluating semantic transfer across mismatched label spaces.</p>
+        <p><span class="tag teal">Topic Classification</span> Identify document-level domain categories (book, movie, or restaurant) using fine-tuned BERT transformers which are pre-trained on multi-domain product review data, evaluating semantic transfer across mismatched label spaces.</p>
 
         <h4>Sentiment Classification</h4>
         <p><span class="tag">Sentiment Classification</span> Classify sentence-level sentiment across three classes (positive, neutral, and negative) using both supervised machine learning and rule-based machine learning approaches to compare methodological strengths and weaknesses during domain transfer.</p>
@@ -365,7 +366,7 @@ strong { font-weight: bold; }
         <h4>Results</h4>
         <p>The model achieved an overall accuracy of 0.92 (0.93 precision, 0.92 recall). The recall and precision scores for classes 0 and 2 (books and kitchen) are relatively balanced, but there is a discrepancy for classes 1 and 3 (DVDs and electronics). For DVDs, the precision of 0.96 and recall of 0.86 suggests that some true instances may be missed. Meanwhile, for electronics, the precision of 0.84 and recall of 0.97 indicates that there are very few false negatives, but more false positives. Overall, the model scores very highly on the validation data.</p>
 
-        <p>As expected, the model correctly predicts movie reviews into the DVD topic and correctly identifies sentences about books. Furthermore, it correctly predicts 2 out of 3 sentences about restaurants into the kitchen category, which was chosen as a proxy for restaurants. One test sentence was misclassified – a sentence about restaurants being classified into the movie category. Important caveat: The test labels (book, movie, sports) were manually mapped to training categories (books, DVD, kitchen, electronics) post-hoc. This is not a true zero-shot generalization test; rather, it demonstrates whether BERT learned semantic patterns general enough to match test categories to trained proxies. A true generalization test would require the model to predict unseen category labels directly.</p>
+        <p>As expected, the model correctly predicts movie reviews into the DVD topic and correctly identifies sentences about books. Furthermore, it correctly predicts 2 out of 3 sentences about restaurants into the kitchen category, which was chosen as a proxy for restaurants. One test sentence was misclassified – a sentence about restaurants being classified into the movie category. Important caveat: The test labels (book, movie, restaurant) were manually mapped to training categories (books, DVD, kitchen, electronics) post-hoc. This is not a true zero-shot generalization test; rather, it demonstrates whether BERT learned semantic patterns general enough to match test categories to trained proxies. A true generalization test would require the model to predict unseen category labels directly.</p>
 
         <img src="fig_bert_loss.png" class="fig" alt="BERT training loss curve" >
         <img src="fig_bert_dev_cm.png" class="fig" alt="BERT development set confusion matrix" >
@@ -374,9 +375,9 @@ strong { font-weight: bold; }
         <p>The BERT model trained on the Amazon Multi-Domain Reviews Dataset performed well for this task. Although there was a slight mismatch in categories between the testing and training data, "kitchen" was effectively used as a proxy for "restaurant" and "DVD" as a proxy for "movie". Nine out of the ten test sentences were predicted correctly. In the future, it could be beneficial to combine datasets to create a training set that more accurately matches the test categories. If a training set that included restaurant reviews had been used, the one misclassified point would likely be correctly predicted. Finally, as Sun et al. mention, it could be beneficial to further pre-train BERT on in-domain data, such as movie, book, and restaurant reviews, rather than simply on the general-domain corpus.</p>
 
         <h4 style="margin-top:8px">Label Space Mismatch and Domain Transfer</h4>
-        <p>BERT was fine-tuned on product review categories {books, DVD, kitchen, electronics}, but the test set contains {book, movie, sports}. The sports category has no training analog, requiring transfer via semantic similarity in learned embeddings—a harder task than simple fine-tuning. Transfer mechanisms vary by category: books→books exhibits direct vocabulary overlap with high expected accuracy; movie→DVD shows partial overlap through shared film vocabulary ("film", "plot", "thriller", "scene", "cinematography"), yielding medium transfer success; sports→electronics reveals severe mismatch with semantic distance too large for effective transfer. The model achieved 90% accuracy on test data (9/10 sentences correct) through proxy matching: DVD reviews mapped to movie reviews and kitchen reviews to restaurant reviews. However, sports vocabulary consistently misdirects to the electronics class because no sports representation exists in the classification head, and the learned decision boundary for electronics proves closest to out-of-distribution sports embeddings.</p>
+        <p>BERT was fine-tuned on product review categories {books, DVD, kitchen, electronics}, but the test set contains {book, movie, restaurant}. Kitchen serves as a proxy for restaurant with partial overlap. Transfer mechanisms vary by category: books→books exhibits direct vocabulary overlap with high expected accuracy; movie→DVD shows partial overlap through shared film vocabulary ("film", "plot", "thriller", "scene", "cinematography"), yielding medium transfer success; restaurant→kitchen shows moderate transfer through shared product/place vocabulary and domain terminology. The model achieved 90% accuracy on test data (9/10 sentences correct) through proxy matching: DVD reviews mapped to movie reviews and kitchen reviews to restaurant reviews. Kitchen vocabulary (appliances, cookware, food preparation) partially aligns with restaurant context (food service, dining, menu terminology), enabling reasonable transfer.</p>
 
-        <p>Per-category analysis shows books achieved perfect accuracy, movies partially transferred via DVD proxy (one mismatch), and restaurants transferred via kitchen proxy (2/3 correct, one misclassified to movies due to vocabulary overlap). Root causes stem from domain-specific terminology: movie and DVD reviews share plot/character terms, facilitating transfer; sports reviews use entirely different vocabulary ("goal", "defense", "team"), preventing it. Additionally, sentiment words like "great" and "disappointing" appear in sports contexts differently than product contexts, resulting in accurate polarity capture but domain misclassification. Improvements require in-domain retraining on movie/sports/book reviews, zero-shot approaches via NLI models (BART-MNLI), or multi-task learning to encourage robust feature learning.</p>
+        <p>Per-category analysis shows books achieved perfect accuracy, movies partially transferred via DVD proxy (one mismatch), and restaurants transferred via kitchen proxy (2/3 correct, one misclassified to movies due to vocabulary overlap). Root causes stem from domain-specific terminology: movie and DVD reviews share plot/character terms, facilitating transfer; kitchen and restaurant reviews share food/dining vocabulary, enabling partial transfer. Descriptor words like "great" and "disappointing" appear in restaurant contexts similarly to kitchen contexts, resulting in better-than-expected transfer. Improvements require in-domain retraining on movie/restaurant/book reviews, zero-shot approaches via NLI models (BART-MNLI), or multi-task learning to encourage robust feature learning.</p>
 
         <img src="fig_topic_mismatch.png" class="fig" alt="Topic label space transfer diagram" >
       </div>
@@ -514,6 +515,10 @@ strong { font-weight: bold; }
 
         <p style="margin-bottom:4px; font-size:12px">
           Ratinov, L., & Roth, D. (2009). Design challenges and misconceptions in named entity recognition. In <em>Proceedings of the Thirteenth Conference on Computational Natural Language Learning</em> (pp. 147–155).
+        </p>
+
+        <p style="margin-bottom:4px; font-size:12px">
+          Sun, Chi, et al. "How to Fine-Tune BERT for Text Classification?" <em>arXiv.Org</em>, 5 Feb. 2020, arxiv.org/abs/1905.05583.
         </p>
 
         <p style="margin-bottom:4px; font-size:12px">
