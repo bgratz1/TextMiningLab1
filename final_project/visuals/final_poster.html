@@ -146,7 +146,7 @@ tr:nth-child(even) td { background: var(--bg); }
 .bad   { color: #991b1b; font-weight: bold; }
 .fill  { color: var(--fill-red); font-weight: bold; background: #fff4f4; padding: 2px 4px; border-radius: 2px; }
 
-.fig { width: 100%; display: block; border-radius: 3px; margin: 3px 0; }
+.fig { width: 100%; display: block; border-radius: 3px; margin: 3px 0; max-height: 150px; object-fit: contain; }
 .fig-row { display: flex; gap: 3px; align-items: flex-start; }
 .fig-row .fig { width: 50%; }
 
@@ -282,7 +282,7 @@ strong { font-weight: bold; }
 
         <p>Feature extraction was kept simple, focusing on the lexical properties of the tokens. Each token was represented using its surface form, extended with lowercase representation and capitalization-based features. This choice was made to establish a strong baseline without relying on contextual embeddings.</p>
 
-        <img src="visuals/fig_ner_dist.png" class="fig" alt="NER training data label distribution">
+        <img src="fig_ner_dist.png" class="fig" alt="NER training data label distribution">
       </div>
     </div>
 
@@ -303,7 +303,7 @@ strong { font-weight: bold; }
 
         <p>When the model was evaluated on the test set, the performance of both the accuracy and the weighted F1-score dropped to 0.81 and 0.74. This is likely caused by the different label schemes between the training and test label schemes. The CoNLL-2003 dataset uses labels such as PER, ORG, LOC, and MISC, whereas the test set also contains labels such as PERSON and WORK_OF_ART, which were not present during training. As a result, the model was unable to learn these entity types effectively.</p>
 
-        <img src="visuals/fig_ner_f1.png" class="fig" alt="NER F1 scores by entity class" style="margin-top:4px">
+        <img src="fig_ner_f1.png" class="fig" alt="NER F1 scores by entity class" style="margin-top:4px">
 
         <h4>Conclusion</h4>
         <p>The LinearSVC model provided a strong baseline for NER and achieved good results on the validation data. The low performance on the I-tags in the validation set indicates that the model had more difficulty identifying complete multi-token entities. The performance of the model decreased on the test set due to differences between the training and test datasets. Future improvements could include using a dataset with matching entity labels, adding contextual features, or applying more advanced sequence models such as CRFs or transformer-based models.</p>
@@ -348,7 +348,7 @@ strong { font-weight: bold; }
         <h4>Data Structure and Processing</h4>
         <p>The data was structured into 4 folders, 1 for each of the categories. Inside each of those 4 folders, there are 3 review files, of positive, negative, and unlabeled reviews represented as a bag-of-words. A label mapping was loaded to convert domain names to numerical values: "books": 0, "dvd": 1, "kitchen": 2, "electronics": 3. The aim was that in the test set, books would map to 0, movies would map to 1, and restaurants would map to 2. The dataset is relatively balanced between the 4 categories, but not entirely. There are 7945 reviews for kitchen products (label 2), 7681 for electronics (3), 6465 for books (0), and 5586 for DVDs (1). Minimal preprocessing was applied to the training data, as it was already relatively well organized for the purposes of this task. However, embedded sentiment labels ("#label#:positive" and "#label#:negative") were removed so the model did not cheat or find shortcuts using sentiment labels, because this task was only concerned with topic classification. The data was split into training and validation splits with 24909 data points for training and 2768 for validation (90% training, 10% validation), using a stratified split to ensure that the 4 topics are represented in a relatively balanced manner.</p>
 
-        <img src="visuals/fig_topic_train_dist.png" class="fig" alt="ACL Multi-Domain training data distribution" style="max-height:150px; object-fit:contain">
+        <img src="fig_topic_train_dist.png" class="fig" alt="ACL Multi-Domain training data distribution" >
       </div>
     </div>
 
@@ -367,8 +367,8 @@ strong { font-weight: bold; }
 
         <p>As expected, the model correctly predicts movie reviews into the DVD topic and correctly identifies sentences about books. Furthermore, it correctly predicts 2 out of 3 sentences about restaurants into the kitchen category, which was chosen as a proxy for restaurants. One test sentence was misclassified – a sentence about restaurants being classified into the movie category. Important caveat: The test labels (book, movie, sports) were manually mapped to training categories (books, DVD, kitchen, electronics) post-hoc. This is not a true zero-shot generalization test; rather, it demonstrates whether BERT learned semantic patterns general enough to match test categories to trained proxies. A true generalization test would require the model to predict unseen category labels directly.</p>
 
-        <img src="visuals/fig_bert_loss.png" class="fig" alt="BERT training loss curve" style="max-height:150px; object-fit:contain">
-        <img src="visuals/fig_bert_dev_cm.png" class="fig" alt="BERT development set confusion matrix" style="max-height:150px; object-fit:contain; margin-top:4px">
+        <img src="fig_bert_loss.png" class="fig" alt="BERT training loss curve" >
+        <img src="fig_bert_dev_cm.png" class="fig" alt="BERT development set confusion matrix" >
 
         <h4>Conclusion</h4>
         <p>The BERT model trained on the Amazon Multi-Domain Reviews Dataset performed well for this task. Although there was a slight mismatch in categories between the testing and training data, "kitchen" was effectively used as a proxy for "restaurant" and "DVD" as a proxy for "movie". Nine out of the ten test sentences were predicted correctly. In the future, it could be beneficial to combine datasets to create a training set that more accurately matches the test categories. If a training set that included restaurant reviews had been used, the one misclassified point would likely be correctly predicted. Finally, as Sun et al. mention, it could be beneficial to further pre-train BERT on in-domain data, such as movie, book, and restaurant reviews, rather than simply on the general-domain corpus.</p>
@@ -378,7 +378,7 @@ strong { font-weight: bold; }
 
         <p>Per-category analysis shows books achieved perfect accuracy, movies partially transferred via DVD proxy (one mismatch), and restaurants transferred via kitchen proxy (2/3 correct, one misclassified to movies due to vocabulary overlap). Root causes stem from domain-specific terminology: movie and DVD reviews share plot/character terms, facilitating transfer; sports reviews use entirely different vocabulary ("goal", "defense", "team"), preventing it. Additionally, sentiment words like "great" and "disappointing" appear in sports contexts differently than product contexts, resulting in accurate polarity capture but domain misclassification. Improvements require in-domain retraining on movie/sports/book reviews, zero-shot approaches via NLI models (BART-MNLI), or multi-task learning to encourage robust feature learning.</p>
 
-        <img src="visuals/fig_topic_mismatch.png" class="fig" alt="Topic label space transfer diagram" style="max-height:150px; object-fit:contain; margin-top:4px">
+        <img src="fig_topic_mismatch.png" class="fig" alt="Topic label space transfer diagram" >
       </div>
     </div>
 
@@ -393,7 +393,7 @@ strong { font-weight: bold; }
         <div class="fig-row">
           <div style="flex:1">
             <h4>Training Corpus: Twitter US Airline Sentiment</h4>
-            <img src="visuals/fig_sentiment_train_dist.png" class="fig" alt="Sentiment training data distribution">
+            <img src="fig_sentiment_train_dist.png" class="fig" alt="Sentiment training data distribution">
             <p style="font-size:11.5px; color:#666; margin-top:2px">Class distribution: negative 36.8%, neutral 31.9%, positive 31.3%. Near-balanced class distribution mirrors natural Twitter complaint patterns.</p>
           </div>
           <div style="flex:1">
@@ -416,17 +416,17 @@ strong { font-weight: bold; }
         <div class="fig-row">
           <div style="flex:1.1">
             <h4>F1 Comparison: Airline Tweet Domain (In-Domain)</h4>
-            <img src="visuals/fig_svm_vader_f1.png" class="fig" alt="SVM vs VADER F1 scores">
+            <img src="fig_svm_vader_f1.png" class="fig" alt="SVM vs VADER F1 scores">
           </div>
           <div style="flex:1">
             <div class="fig-row">
               <div style="flex:1">
                 <h4 style="font-size:12px">SVM Confusion Matrix (n=951)</h4>
-                <img src="visuals/fig_svm_cm.png" class="fig" alt="SVM confusion matrix">
+                <img src="fig_svm_cm.png" class="fig" alt="SVM confusion matrix">
               </div>
               <div style="flex:1">
                 <h4 style="font-size:12px">VADER Confusion Matrix (n=4755)</h4>
-                <img src="visuals/fig_vader_cm.png" class="fig" alt="VADER confusion matrix">
+                <img src="fig_vader_cm.png" class="fig" alt="VADER confusion matrix">
               </div>
             </div>
           </div>
@@ -455,7 +455,7 @@ strong { font-weight: bold; }
         <p style="font-size:12px">On the airline tweet dataset, the TF-IDF + SVM model achieved the highest performance, reaching an accuracy of 84%, compared to 62% for DistilBERT. SVM also achieved a substantially higher F1-score for the neutral class (0.79 vs. 0.10), suggesting that the TF-IDF representation captured sentiment-related keywords in the airline domain effectively.</p>
         <p style="font-size:12px">However, results on the provided course test set showed the opposite trend. DistilBERT achieved 61% accuracy, outperforming SVM (39% accuracy). Figure 1 shows that DistilBERT achieved higher accuracy and F1-scores on the unseen test set, particularly for positive and negative sentiment. Note: This comparison is not directly fair—SVM was tested on its training domain vocabulary while DistilBERT was tested out-of-domain. The observation that DistilBERT generalizes better should be interpreted cautiously; a fairer test would compare both models on out-of-domain data or both on in-domain data. The takeaway is that vocabulary shift damages SVM severely, while DistilBERT's learned representations maintain reasonable performance.</p>
 
-        <img src="visuals/sentiment_test_comparison.jpeg" class="fig" alt="Test set performance comparison" style="max-height:100px; object-fit:contain; margin:3px 0">
+        <img src="sentiment_test_comparison.jpeg" class="fig" alt="Test set performance comparison" >
 
         <p style="font-size:12px">Both systems struggled with the neutral class, achieving an F1-score of 0.00 on the course test set. Neutral sentences often contained a mixture of positive and negative cues, making classification difficult.</p>
         <p style="font-size:12px">Examples of errors illustrate this issue. SVM classified "It had me hooked from the first chapter" as neutral instead of positive, likely because it lacked strongly positive sentiment words. DistilBERT incorrectly classified "It's split into two timelines, which keeps it interesting but also a bit confusing at times" as negative, although the sentence expresses a balanced opinion and was labelled neutral.</p>
@@ -471,35 +471,17 @@ strong { font-weight: bold; }
     <div class="box">
       <div class="box-hd">Findings and Cross-Task Synthesis</div>
       <div class="box-bd">
-        <h4>Findings</h4>
+        <h4>Key Findings</h4>
 
-        <p><strong>Sentiment Analysis:</strong> SVM excels on airline tweets (F1 0.84 vs VADER 0.51). DistilBERT transfers better cross-domain (61% vs SVM 39%). All struggle on entertainment and sports. Neutral class hardest.</p>
+        <p><strong>Sentiment Analysis</strong> Evaluating sentence-level sentiment across positive, neutral, and negative classes shows a trade-off between supervised machine learning and rule-based approaches with domain transfer. Because the training data (such as airline tweets) differed from the entertainment and sports test sets, cross-domain application introduced high variance. While supervised models often overfit to the specific lexical markers of their original training data, rule-based lexicon approaches proved to work better with sudden domain shifts, demonstrating that vocabulary alignment remains a hurdle when classifying sentiment across mismatched data.</p>
 
-        <p><strong>Topic Classification:</strong> BERT achieves 92% accuracy on validation. Cross-domain generalization limited. Sports fails entirely (unseen). Movie-to-DVD and book-to-books transfer via semantic overlap. Label mismatch is fundamental constraint.</p>
+        <p><strong>Topic Classification</strong> The fine-tuned BERT model demonstrated highly robust semantic transfer when navigating direct domain matches, such as text labeled "books," or partial matches, like mapping a "dvd" training label to a "movie" test label. However, this reached its limit in scenarios where no label overlap existed. Attempting to classify completely unseen domain categories, for example, transferring from a "kitchen" domain in the training set to a "sports" domain in the test set, resulted in significant performance degradation, highlighting the limitation of transformer generalization when it lacks a shared vocabulary space.</p>
 
-        <p><strong>Named Entity Recognition:</strong> LinearSVC reaches 94% overall but high per-class variance. Common entities strong (O 0.99 F1). Rare weak (B-ORG 0.57 F1). Multi-token fail (I-PER 0.57 F1). Token-level approach prevents BIO constraint learning. Unseen entity types fail entirely.</p>
+        <p><strong>Named Entity Recognition</strong> Evaluating the baseline LinearSVC model revealed a big performance gap between in-domain validation and out-of-domain testing. While token-level feature engineering enabled strong initial boundary detection on the CoNLL-2003 dataset, performance dropped significantly on the actual test set. The model struggled to extrapolate to entity classes not present in its training data, completely failing to recognize the "work_of_art" category, while a noticeable drop in identifying the inside of entities relative to the beginning of entities indicated that the baseline model struggled with capturing the full boundaries of multi-token phrases without any deeper contextual awareness.</p>
 
-        <h4>Cross-Task Pattern</h4>
+        <h4>Conclusion</h4>
 
-        <div class="insight">
-          <strong>Domain Mismatch is the Bottleneck:</strong> Across all tasks, same pattern: models trained on one domain fail on another. Different vocabulary (airline vs sports). Different entity types (news vs entertainment). Different categories (products vs reviews). In-domain 84-94% accuracy. Cross-domain 39-90%. Drop correlates with domain distance.
-        </div>
-
-        <p><strong>Supervised vs Rule-Based:</strong> SVM and BERT learn domain patterns but need labeled data and fail on unseen categories. VADER generalizes zero-shot but misses context. Transformers show modest gains but remain data-limited.</p>
-
-        <p><strong>Class Imbalance and Sequence Constraints:</strong> NER token-level independence prevents BIO learning. Topic classification head fixed (cannot do zero-shot). Both need architectural fixes, not just data.</p>
-
-        <p><strong>Performance Drop Pattern:</strong> Identical domains: minimal drop. Partial overlap: moderate drop. Complete mismatch: catastrophic. Semantic distance bounds transfer.</p>
-
-        <h4>Limitations</h4>
-
-        <p><strong>Sample Size:</strong> Test n=18 and n=15. Case studies. No significance testing. Conclusions tentative.</p>
-
-        <p><strong>Topic:</strong> Label mismatch (train 4, test 3 with sports unseen) unfixable by data alone. BERT needs fixed label sets.</p>
-
-        <p><strong>NER:</strong> Token-level ignores sequence constraints. No context window. Unseen types fail. Class imbalance favors majority.</p>
-
-        <p><strong>Design:</strong> Single split, no cross-validation. Generalization claims limited.</p>
+        <p>This research highlights domain adaptation as a central bottleneck when deploying NLP models to unstructured text. While traditional baseline models (e.g. LinearSVC) are highly efficient for in-domain boundary detection, they perform worse when confronted with unseen data, as evidenced by the complete failure to classify the "work_of_art" entity. In contrast, deep learning frameworks like BERT show superior semantic transfer across partially mismatched label spaces, successfully bridging related domains (e.g., mapping "dvd" to "movie"). However, even these models face noticeable performance drops when generalizing to completely disjoint domains without shared vocabulary. Future improvements must focus on zero-shot learning, integrating deeper contextual features like CRFs, and employing hybrid approaches to build adaptable, cross-domain NLP systems.</p>
 
 
         <h4>Improvements by Priority</h4>
